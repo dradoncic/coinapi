@@ -2,7 +2,7 @@
 #include <string>
 
 struct MarketEvent{
-    std::string type;
+    std::string product_id;
     double price;
     double size;
     std::string side;

@@ -1,0 +1,3 @@
+/Users/deenradoncic/Desktop/code/coinapi/build/CMakeFiles/coinapi.dir
+/Users/deenradoncic/Desktop/code/coinapi/build/CMakeFiles/edit_cache.dir
+/Users/deenradoncic/Desktop/code/coinapi/build/CMakeFiles/rebuild_cache.dir

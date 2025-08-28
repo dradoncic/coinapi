@@ -12,6 +12,7 @@ bool SPSCQueue<T, Size>::push(const T& item)
     size_t curr_head = head_.load(std::memory_order_relaxed);
     size_t next = (curr_head + 1) % Size;
 
+    // if head wraps around back to the tail, the buffer is full
     if (next == tail_.load(std::memory_order_acquire)) return false;
 
     buffer_[curr_head] = item;
@@ -25,6 +26,7 @@ std::optional<T> SPSCQueue<T, Size>::pop()
 {
     size_t curr_tail = tail_.load(std::memory_order_relaxed);
 
+    // if tail catches up to head, the buffer is empty
     if (curr_tail == head_.load(std::memory_order_acquire)) return {};
     
     T item =  buffer_[curr_tail];
