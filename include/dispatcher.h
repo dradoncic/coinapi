@@ -2,6 +2,7 @@
 #include <simdjson.h>
 #include "ringbuffer.h"
 #include "raw_message.h"
+#include "channel_type.h"
 
 class Dispatcher {
 public:
