@@ -7,8 +7,8 @@ import time
 import uuid
 
 WS_URL = "wss://ws-feed.exchange.coinbase.com"
-API_KEY = "organizations/47468743-1e02-4f7a-aba0-e6c0d09b9d86/apiKeys/cd2c469d-8cdf-4a6b-a5cb-74d042522872"
-SIGNING_KEY = "-----BEGIN EC PRIVATE KEY-----\nMHcCAQEEIMIeGJbr/3OvqhAxI5TBt8INiQ01NruwIVKPdmGisQyXoAoGCCqGSM49\nAwEHoUQDQgAEr2xMeZpXXR1SixYtZQjJfmcJMLfv5DliQgIt3GcusaP/T3N8fIDN\n8q5cueoBbBHXpSxDMwN8ivSnU6JPSehXTA==\n-----END EC PRIVATE KEY-----\n"
+API_KEY = ""
+SIGNING_KEY = ""
 
 def generate_jwt():
     current_time = int(time.time())
