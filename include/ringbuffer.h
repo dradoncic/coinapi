@@ -4,9 +4,9 @@
 #include <optional>
 
 template<typename T, size_t Size>
-class SPSCQueue {
+class RingBuffer {
 public:
-    SPSCQueue();
+    RingBuffer();
 
     bool push(const T& item);
     std::optional<T> pop();

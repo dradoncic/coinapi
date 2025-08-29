@@ -9,7 +9,7 @@ set(CMAKE_DEPENDS_LANGUAGES
 # The set of dependency files which are needed:
 set(CMAKE_DEPENDS_DEPENDENCY_FILES
   "/Users/deenradoncic/Desktop/code/coinapi/src/main.cpp" "CMakeFiles/coinapi.dir/src/main.cpp.o" "gcc" "CMakeFiles/coinapi.dir/src/main.cpp.o.d"
-  "/Users/deenradoncic/Desktop/code/coinapi/src/spscqueue.cpp" "CMakeFiles/coinapi.dir/src/spscqueue.cpp.o" "gcc" "CMakeFiles/coinapi.dir/src/spscqueue.cpp.o.d"
+  "/Users/deenradoncic/Desktop/code/coinapi/src/ringbuffer.cpp" "CMakeFiles/coinapi.dir/src/ringbuffer.cpp.o" "gcc" "CMakeFiles/coinapi.dir/src/ringbuffer.cpp.o.d"
   "/Users/deenradoncic/Desktop/code/coinapi/src/websocket.cpp" "CMakeFiles/coinapi.dir/src/websocket.cpp.o" "gcc" "CMakeFiles/coinapi.dir/src/websocket.cpp.o.d"
   )
 

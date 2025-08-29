@@ -1,20 +1,26 @@
 [
 {
   "directory": "/Users/deenradoncic/Desktop/code/coinapi/build",
-  "command": "/opt/homebrew/bin/aarch64-apple-darwin24-g++-15 -DBOOST_ATOMIC_DYN_LINK -DBOOST_ATOMIC_NO_LIB -DBOOST_FILESYSTEM_DYN_LINK -DBOOST_FILESYSTEM_NO_LIB -I/Users/deenradoncic/Desktop/code/coinapi/include -isystem /opt/homebrew/include -isystem /opt/homebrew/Cellar/openssl@3/3.5.2/include -g -std=gnu++17 -arch arm64 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.1.sdk -o CMakeFiles/coinapi.dir/src/main.cpp.o -c /Users/deenradoncic/Desktop/code/coinapi/src/main.cpp",
+  "command": "/opt/homebrew/bin/aarch64-apple-darwin24-g++-15 -DBOOST_ATOMIC_DYN_LINK -DBOOST_ATOMIC_NO_LIB -DBOOST_FILESYSTEM_DYN_LINK -DBOOST_FILESYSTEM_NO_LIB -DSIMDJSON_THREADS_ENABLED=1 -I/Users/deenradoncic/Desktop/code/coinapi/include -I/Users/deenradoncic/Desktop/code/coinapi/build/_deps/simdjson-src/include -isystem /opt/homebrew/include -isystem /opt/homebrew/Cellar/openssl@3/3.5.2/include -g -std=gnu++17 -arch arm64 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.1.sdk -o CMakeFiles/coinapi.dir/src/main.cpp.o -c /Users/deenradoncic/Desktop/code/coinapi/src/main.cpp",
   "file": "/Users/deenradoncic/Desktop/code/coinapi/src/main.cpp",
   "output": "CMakeFiles/coinapi.dir/src/main.cpp.o"
 },
 {
   "directory": "/Users/deenradoncic/Desktop/code/coinapi/build",
-  "command": "/opt/homebrew/bin/aarch64-apple-darwin24-g++-15 -DBOOST_ATOMIC_DYN_LINK -DBOOST_ATOMIC_NO_LIB -DBOOST_FILESYSTEM_DYN_LINK -DBOOST_FILESYSTEM_NO_LIB -I/Users/deenradoncic/Desktop/code/coinapi/include -isystem /opt/homebrew/include -isystem /opt/homebrew/Cellar/openssl@3/3.5.2/include -g -std=gnu++17 -arch arm64 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.1.sdk -o CMakeFiles/coinapi.dir/src/websocket.cpp.o -c /Users/deenradoncic/Desktop/code/coinapi/src/websocket.cpp",
+  "command": "/opt/homebrew/bin/aarch64-apple-darwin24-g++-15 -DBOOST_ATOMIC_DYN_LINK -DBOOST_ATOMIC_NO_LIB -DBOOST_FILESYSTEM_DYN_LINK -DBOOST_FILESYSTEM_NO_LIB -DSIMDJSON_THREADS_ENABLED=1 -I/Users/deenradoncic/Desktop/code/coinapi/include -I/Users/deenradoncic/Desktop/code/coinapi/build/_deps/simdjson-src/include -isystem /opt/homebrew/include -isystem /opt/homebrew/Cellar/openssl@3/3.5.2/include -g -std=gnu++17 -arch arm64 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.1.sdk -o CMakeFiles/coinapi.dir/src/websocket.cpp.o -c /Users/deenradoncic/Desktop/code/coinapi/src/websocket.cpp",
   "file": "/Users/deenradoncic/Desktop/code/coinapi/src/websocket.cpp",
   "output": "CMakeFiles/coinapi.dir/src/websocket.cpp.o"
 },
 {
   "directory": "/Users/deenradoncic/Desktop/code/coinapi/build",
-  "command": "/opt/homebrew/bin/aarch64-apple-darwin24-g++-15 -DBOOST_ATOMIC_DYN_LINK -DBOOST_ATOMIC_NO_LIB -DBOOST_FILESYSTEM_DYN_LINK -DBOOST_FILESYSTEM_NO_LIB -I/Users/deenradoncic/Desktop/code/coinapi/include -isystem /opt/homebrew/include -isystem /opt/homebrew/Cellar/openssl@3/3.5.2/include -g -std=gnu++17 -arch arm64 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.1.sdk -o CMakeFiles/coinapi.dir/src/spscqueue.cpp.o -c /Users/deenradoncic/Desktop/code/coinapi/src/spscqueue.cpp",
-  "file": "/Users/deenradoncic/Desktop/code/coinapi/src/spscqueue.cpp",
-  "output": "CMakeFiles/coinapi.dir/src/spscqueue.cpp.o"
+  "command": "/opt/homebrew/bin/aarch64-apple-darwin24-g++-15 -DBOOST_ATOMIC_DYN_LINK -DBOOST_ATOMIC_NO_LIB -DBOOST_FILESYSTEM_DYN_LINK -DBOOST_FILESYSTEM_NO_LIB -DSIMDJSON_THREADS_ENABLED=1 -I/Users/deenradoncic/Desktop/code/coinapi/include -I/Users/deenradoncic/Desktop/code/coinapi/build/_deps/simdjson-src/include -isystem /opt/homebrew/include -isystem /opt/homebrew/Cellar/openssl@3/3.5.2/include -g -std=gnu++17 -arch arm64 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.1.sdk -o CMakeFiles/coinapi.dir/src/ringbuffer.cpp.o -c /Users/deenradoncic/Desktop/code/coinapi/src/ringbuffer.cpp",
+  "file": "/Users/deenradoncic/Desktop/code/coinapi/src/ringbuffer.cpp",
+  "output": "CMakeFiles/coinapi.dir/src/ringbuffer.cpp.o"
+},
+{
+  "directory": "/Users/deenradoncic/Desktop/code/coinapi/build/_deps/simdjson-build",
+  "command": "/opt/homebrew/bin/aarch64-apple-darwin24-g++-15 -DSIMDJSON_AVX512_ALLOWED=1 -DSIMDJSON_THREADS_ENABLED=1 -DSIMDJSON_UTF8VALIDATION=1 -I/Users/deenradoncic/Desktop/code/coinapi/build/_deps/simdjson-src/include -I/Users/deenradoncic/Desktop/code/coinapi/build/_deps/simdjson-src/src -g -std=c++17 -arch arm64 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.1.sdk -Og -o CMakeFiles/simdjson.dir/src/simdjson.cpp.o -c /Users/deenradoncic/Desktop/code/coinapi/build/_deps/simdjson-src/src/simdjson.cpp",
+  "file": "/Users/deenradoncic/Desktop/code/coinapi/build/_deps/simdjson-src/src/simdjson.cpp",
+  "output": "_deps/simdjson-build/CMakeFiles/simdjson.dir/src/simdjson.cpp.o"
 }
 ]

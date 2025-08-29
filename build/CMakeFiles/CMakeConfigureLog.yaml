@@ -605,3 +605,120 @@ events:
       LTO support using: LLVM version 16.0.0 (static support for 29, runtime is 29)
       TAPI support using: Apple TAPI version 16.0.0 (tapi-1600.0.11.8)
 ...
+
+---
+events:
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "/Applications/CMake.app/Contents/share/cmake-3.31/Modules/Internal/CheckSourceCompiles.cmake:108 (try_compile)"
+      - "/Applications/CMake.app/Contents/share/cmake-3.31/Modules/CheckCSourceCompiles.cmake:58 (cmake_check_source_compiles)"
+      - "/Applications/CMake.app/Contents/share/cmake-3.31/Modules/FindThreads.cmake:97 (CHECK_C_SOURCE_COMPILES)"
+      - "/Applications/CMake.app/Contents/share/cmake-3.31/Modules/FindThreads.cmake:163 (_threads_check_libc)"
+      - "build/_deps/simdjson-src/CMakeLists.txt:108 (find_package)"
+    checks:
+      - "Performing Test CMAKE_HAVE_LIBC_PTHREAD"
+    directories:
+      source: "/Users/deenradoncic/Desktop/code/coinapi/build/CMakeFiles/CMakeScratch/TryCompile-txYH8n"
+      binary: "/Users/deenradoncic/Desktop/code/coinapi/build/CMakeFiles/CMakeScratch/TryCompile-txYH8n"
+    cmakeVariables:
+      CMAKE_C_FLAGS: ""
+      CMAKE_C_FLAGS_DEBUG: "-g"
+      CMAKE_EXE_LINKER_FLAGS: ""
+      CMAKE_OSX_ARCHITECTURES: ""
+      CMAKE_OSX_DEPLOYMENT_TARGET: ""
+      CMAKE_OSX_SYSROOT: "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.1.sdk"
+    buildResult:
+      variable: "CMAKE_HAVE_LIBC_PTHREAD"
+      cached: true
+      stdout: |
+        Change Dir: '/Users/deenradoncic/Desktop/code/coinapi/build/CMakeFiles/CMakeScratch/TryCompile-txYH8n'
+        
+        Run Build Command(s): /Applications/CMake.app/Contents/bin/cmake -E env VERBOSE=1 /opt/homebrew/bin/gmake -f Makefile cmTC_ae90f/fast
+        /opt/homebrew/bin/gmake  -f CMakeFiles/cmTC_ae90f.dir/build.make CMakeFiles/cmTC_ae90f.dir/build
+        gmake[1]: Entering directory '/Users/deenradoncic/Desktop/code/coinapi/build/CMakeFiles/CMakeScratch/TryCompile-txYH8n'
+        Building C object CMakeFiles/cmTC_ae90f.dir/src.c.o
+        /opt/homebrew/bin/aarch64-apple-darwin24-gcc-15 -DCMAKE_HAVE_LIBC_PTHREAD  -arch arm64 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.1.sdk -o CMakeFiles/cmTC_ae90f.dir/src.c.o -c /Users/deenradoncic/Desktop/code/coinapi/build/CMakeFiles/CMakeScratch/TryCompile-txYH8n/src.c
+        Linking C executable cmTC_ae90f
+        /Applications/CMake.app/Contents/bin/cmake -E cmake_link_script CMakeFiles/cmTC_ae90f.dir/link.txt --verbose=1
+        /opt/homebrew/bin/aarch64-apple-darwin24-gcc-15  -arch arm64 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.1.sdk -Wl,-search_paths_first -Wl,-headerpad_max_install_names CMakeFiles/cmTC_ae90f.dir/src.c.o -o cmTC_ae90f
+        gmake[1]: Leaving directory '/Users/deenradoncic/Desktop/code/coinapi/build/CMakeFiles/CMakeScratch/TryCompile-txYH8n'
+        
+      exitCode: 0
+...
+
+---
+events:
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "/Applications/CMake.app/Contents/share/cmake-3.31/Modules/CheckSymbolExists.cmake:163 (try_compile)"
+      - "/Applications/CMake.app/Contents/share/cmake-3.31/Modules/CheckSymbolExists.cmake:68 (__CHECK_SYMBOL_EXISTS_IMPL)"
+      - "build/_deps/simdjson-src/cmake/developer-options.cmake:237 (check_symbol_exists)"
+      - "build/_deps/simdjson-src/CMakeLists.txt:76 (include)"
+    checks:
+      - "Looking for fork"
+    directories:
+      source: "/Users/deenradoncic/Desktop/code/coinapi/build/CMakeFiles/CMakeScratch/TryCompile-90rWdq"
+      binary: "/Users/deenradoncic/Desktop/code/coinapi/build/CMakeFiles/CMakeScratch/TryCompile-90rWdq"
+    cmakeVariables:
+      CMAKE_C_FLAGS: ""
+      CMAKE_C_FLAGS_DEBUG: "-g"
+      CMAKE_EXE_LINKER_FLAGS: ""
+      CMAKE_OSX_ARCHITECTURES: ""
+      CMAKE_OSX_DEPLOYMENT_TARGET: ""
+      CMAKE_OSX_SYSROOT: "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.1.sdk"
+    buildResult:
+      variable: "HAVE_POSIX_FORK"
+      cached: true
+      stdout: |
+        Change Dir: '/Users/deenradoncic/Desktop/code/coinapi/build/CMakeFiles/CMakeScratch/TryCompile-90rWdq'
+        
+        Run Build Command(s): /Applications/CMake.app/Contents/bin/cmake -E env VERBOSE=1 /opt/homebrew/bin/gmake -f Makefile cmTC_032c8/fast
+        /opt/homebrew/bin/gmake  -f CMakeFiles/cmTC_032c8.dir/build.make CMakeFiles/cmTC_032c8.dir/build
+        gmake[1]: Entering directory '/Users/deenradoncic/Desktop/code/coinapi/build/CMakeFiles/CMakeScratch/TryCompile-90rWdq'
+        Building C object CMakeFiles/cmTC_032c8.dir/CheckSymbolExists.c.o
+        /opt/homebrew/bin/aarch64-apple-darwin24-gcc-15   -arch arm64 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.1.sdk -o CMakeFiles/cmTC_032c8.dir/CheckSymbolExists.c.o -c /Users/deenradoncic/Desktop/code/coinapi/build/CMakeFiles/CMakeScratch/TryCompile-90rWdq/CheckSymbolExists.c
+        Linking C executable cmTC_032c8
+        /Applications/CMake.app/Contents/bin/cmake -E cmake_link_script CMakeFiles/cmTC_032c8.dir/link.txt --verbose=1
+        /opt/homebrew/bin/aarch64-apple-darwin24-gcc-15  -arch arm64 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.1.sdk -Wl,-search_paths_first -Wl,-headerpad_max_install_names CMakeFiles/cmTC_032c8.dir/CheckSymbolExists.c.o -o cmTC_032c8
+        gmake[1]: Leaving directory '/Users/deenradoncic/Desktop/code/coinapi/build/CMakeFiles/CMakeScratch/TryCompile-90rWdq'
+        
+      exitCode: 0
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "/Applications/CMake.app/Contents/share/cmake-3.31/Modules/CheckSymbolExists.cmake:163 (try_compile)"
+      - "/Applications/CMake.app/Contents/share/cmake-3.31/Modules/CheckSymbolExists.cmake:68 (__CHECK_SYMBOL_EXISTS_IMPL)"
+      - "build/_deps/simdjson-src/cmake/developer-options.cmake:238 (check_symbol_exists)"
+      - "build/_deps/simdjson-src/CMakeLists.txt:76 (include)"
+    checks:
+      - "Looking for wait"
+    directories:
+      source: "/Users/deenradoncic/Desktop/code/coinapi/build/CMakeFiles/CMakeScratch/TryCompile-ODA2ia"
+      binary: "/Users/deenradoncic/Desktop/code/coinapi/build/CMakeFiles/CMakeScratch/TryCompile-ODA2ia"
+    cmakeVariables:
+      CMAKE_C_FLAGS: ""
+      CMAKE_C_FLAGS_DEBUG: "-g"
+      CMAKE_EXE_LINKER_FLAGS: ""
+      CMAKE_OSX_ARCHITECTURES: ""
+      CMAKE_OSX_DEPLOYMENT_TARGET: ""
+      CMAKE_OSX_SYSROOT: "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.1.sdk"
+    buildResult:
+      variable: "HAVE_POSIX_WAIT"
+      cached: true
+      stdout: |
+        Change Dir: '/Users/deenradoncic/Desktop/code/coinapi/build/CMakeFiles/CMakeScratch/TryCompile-ODA2ia'
+        
+        Run Build Command(s): /Applications/CMake.app/Contents/bin/cmake -E env VERBOSE=1 /opt/homebrew/bin/gmake -f Makefile cmTC_4b8e7/fast
+        /opt/homebrew/bin/gmake  -f CMakeFiles/cmTC_4b8e7.dir/build.make CMakeFiles/cmTC_4b8e7.dir/build
+        gmake[1]: Entering directory '/Users/deenradoncic/Desktop/code/coinapi/build/CMakeFiles/CMakeScratch/TryCompile-ODA2ia'
+        Building C object CMakeFiles/cmTC_4b8e7.dir/CheckSymbolExists.c.o
+        /opt/homebrew/bin/aarch64-apple-darwin24-gcc-15   -arch arm64 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.1.sdk -o CMakeFiles/cmTC_4b8e7.dir/CheckSymbolExists.c.o -c /Users/deenradoncic/Desktop/code/coinapi/build/CMakeFiles/CMakeScratch/TryCompile-ODA2ia/CheckSymbolExists.c
+        Linking C executable cmTC_4b8e7
+        /Applications/CMake.app/Contents/bin/cmake -E cmake_link_script CMakeFiles/cmTC_4b8e7.dir/link.txt --verbose=1
+        /opt/homebrew/bin/aarch64-apple-darwin24-gcc-15  -arch arm64 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.1.sdk -Wl,-search_paths_first -Wl,-headerpad_max_install_names CMakeFiles/cmTC_4b8e7.dir/CheckSymbolExists.c.o -o cmTC_4b8e7
+        gmake[1]: Leaving directory '/Users/deenradoncic/Desktop/code/coinapi/build/CMakeFiles/CMakeScratch/TryCompile-ODA2ia'
+        
+      exitCode: 0
+...

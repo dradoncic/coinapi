@@ -12,8 +12,21 @@ find_package(OpenSSL REQUIRED)
 add_executable(coinapi
     src/main.cpp
     src/websocket.cpp
-    src/spscqueue.cpp
+    src/ringbuffer.cpp
 )
+
+include(FetchContent)
+
+FetchContent_Declare(
+  simdjson
+  GIT_REPOSITORY https://github.com/simdjson/simdjson.git
+  GIT_SHALLOW TRUE
+  )
+
+  set(SIMDJSON_JUST_LIBRARY ON CACHE INTERNAL "")
+  set(SIMDJSON_BUILD_STATIC ON CACHE INTERNAL "")
+   
+  FetchContent_MakeAvailable(simdjson)
 
 target_include_directories(coinapi PRIVATE
     include
@@ -26,5 +39,6 @@ target_link_libraries(coinapi PRIVATE
     OpenSSL::SSL
     OpenSSL::Crypto
     pthread
+    simdjson
 )
 

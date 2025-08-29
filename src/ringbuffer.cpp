@@ -1,13 +1,13 @@
-#include "spscqueue.h"
+#include "ringbuffer.h"
 
 template<typename T, size_t Size>
-SPSCQueue<T, Size>::SPSCQueue() : head_{0}, tail_{0}
+RingBuffer<T, Size>::RingBuffer() : head_{0}, tail_{0}
 {
     buffer_.resize(Size);
 }
 
 template<typename T, size_t Size>
-bool SPSCQueue<T, Size>::push(const T& item)
+bool RingBuffer<T, Size>::push(const T& item)
 {
     size_t curr_head = head_.load(std::memory_order_relaxed);
     size_t next = (curr_head + 1) % Size;
@@ -22,7 +22,7 @@ bool SPSCQueue<T, Size>::push(const T& item)
 }
 
 template<typename T, size_t Size>
-std::optional<T> SPSCQueue<T, Size>::pop()
+std::optional<T> RingBuffer<T, Size>::pop()
 {
     size_t curr_tail = tail_.load(std::memory_order_relaxed);
 

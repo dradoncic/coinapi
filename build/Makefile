@@ -65,6 +65,26 @@ CMAKE_BINARY_DIR = /Users/deenradoncic/Desktop/code/coinapi/build
 #=============================================================================
 # Targets provided globally by CMake.
 
+# Special rule for the target package
+package: preinstall
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --cyan "Run CPack packaging tool..."
+	/Applications/CMake.app/Contents/bin/cpack --config ./CPackConfig.cmake
+.PHONY : package
+
+# Special rule for the target package
+package/fast: package
+.PHONY : package/fast
+
+# Special rule for the target package_source
+package_source:
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --cyan "Run CPack packaging tool for source..."
+	/Applications/CMake.app/Contents/bin/cpack --config ./CPackSourceConfig.cmake /Users/deenradoncic/Desktop/code/coinapi/build/CPackSourceConfig.cmake
+.PHONY : package_source
+
+# Special rule for the target package_source
+package_source/fast: package_source
+.PHONY : package_source/fast
+
 # Special rule for the target edit_cache
 edit_cache:
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --cyan "Running CMake cache editor..."
@@ -84,6 +104,51 @@ rebuild_cache:
 # Special rule for the target rebuild_cache
 rebuild_cache/fast: rebuild_cache
 .PHONY : rebuild_cache/fast
+
+# Special rule for the target list_install_components
+list_install_components:
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --cyan "Available install components are: \"Unspecified\" \"simdjson_Development\""
+.PHONY : list_install_components
+
+# Special rule for the target list_install_components
+list_install_components/fast: list_install_components
+.PHONY : list_install_components/fast
+
+# Special rule for the target install
+install: preinstall
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --cyan "Install the project..."
+	/Applications/CMake.app/Contents/bin/cmake -P cmake_install.cmake
+.PHONY : install
+
+# Special rule for the target install
+install/fast: preinstall/fast
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --cyan "Install the project..."
+	/Applications/CMake.app/Contents/bin/cmake -P cmake_install.cmake
+.PHONY : install/fast
+
+# Special rule for the target install/local
+install/local: preinstall
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --cyan "Installing only the local directory..."
+	/Applications/CMake.app/Contents/bin/cmake -DCMAKE_INSTALL_LOCAL_ONLY=1 -P cmake_install.cmake
+.PHONY : install/local
+
+# Special rule for the target install/local
+install/local/fast: preinstall/fast
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --cyan "Installing only the local directory..."
+	/Applications/CMake.app/Contents/bin/cmake -DCMAKE_INSTALL_LOCAL_ONLY=1 -P cmake_install.cmake
+.PHONY : install/local/fast
+
+# Special rule for the target install/strip
+install/strip: preinstall
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --cyan "Installing the project stripped..."
+	/Applications/CMake.app/Contents/bin/cmake -DCMAKE_INSTALL_DO_STRIP=1 -P cmake_install.cmake
+.PHONY : install/strip
+
+# Special rule for the target install/strip
+install/strip/fast: preinstall/fast
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --cyan "Installing the project stripped..."
+	/Applications/CMake.app/Contents/bin/cmake -DCMAKE_INSTALL_DO_STRIP=1 -P cmake_install.cmake
+.PHONY : install/strip/fast
 
 # The main all target
 all: cmake_check_build_system
@@ -129,6 +194,19 @@ coinapi/fast:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/coinapi.dir/build.make CMakeFiles/coinapi.dir/build
 .PHONY : coinapi/fast
 
+#=============================================================================
+# Target rules for targets named simdjson
+
+# Build rule for target.
+simdjson: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 simdjson
+.PHONY : simdjson
+
+# fast build rule for target.
+simdjson/fast:
+	$(MAKE) $(MAKESILENT) -f _deps/simdjson-build/CMakeFiles/simdjson.dir/build.make _deps/simdjson-build/CMakeFiles/simdjson.dir/build
+.PHONY : simdjson/fast
+
 src/main.o: src/main.cpp.o
 .PHONY : src/main.o
 
@@ -153,29 +231,29 @@ src/main.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/coinapi.dir/build.make CMakeFiles/coinapi.dir/src/main.cpp.s
 .PHONY : src/main.cpp.s
 
-src/spscqueue.o: src/spscqueue.cpp.o
-.PHONY : src/spscqueue.o
+src/ringbuffer.o: src/ringbuffer.cpp.o
+.PHONY : src/ringbuffer.o
 
 # target to build an object file
-src/spscqueue.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/coinapi.dir/build.make CMakeFiles/coinapi.dir/src/spscqueue.cpp.o
-.PHONY : src/spscqueue.cpp.o
+src/ringbuffer.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/coinapi.dir/build.make CMakeFiles/coinapi.dir/src/ringbuffer.cpp.o
+.PHONY : src/ringbuffer.cpp.o
 
-src/spscqueue.i: src/spscqueue.cpp.i
-.PHONY : src/spscqueue.i
+src/ringbuffer.i: src/ringbuffer.cpp.i
+.PHONY : src/ringbuffer.i
 
 # target to preprocess a source file
-src/spscqueue.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/coinapi.dir/build.make CMakeFiles/coinapi.dir/src/spscqueue.cpp.i
-.PHONY : src/spscqueue.cpp.i
+src/ringbuffer.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/coinapi.dir/build.make CMakeFiles/coinapi.dir/src/ringbuffer.cpp.i
+.PHONY : src/ringbuffer.cpp.i
 
-src/spscqueue.s: src/spscqueue.cpp.s
-.PHONY : src/spscqueue.s
+src/ringbuffer.s: src/ringbuffer.cpp.s
+.PHONY : src/ringbuffer.s
 
 # target to generate assembly for a file
-src/spscqueue.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/coinapi.dir/build.make CMakeFiles/coinapi.dir/src/spscqueue.cpp.s
-.PHONY : src/spscqueue.cpp.s
+src/ringbuffer.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/coinapi.dir/build.make CMakeFiles/coinapi.dir/src/ringbuffer.cpp.s
+.PHONY : src/ringbuffer.cpp.s
 
 src/websocket.o: src/websocket.cpp.o
 .PHONY : src/websocket.o
@@ -208,14 +286,21 @@ help:
 	@echo "... clean"
 	@echo "... depend"
 	@echo "... edit_cache"
+	@echo "... install"
+	@echo "... install/local"
+	@echo "... install/strip"
+	@echo "... list_install_components"
+	@echo "... package"
+	@echo "... package_source"
 	@echo "... rebuild_cache"
 	@echo "... coinapi"
+	@echo "... simdjson"
 	@echo "... src/main.o"
 	@echo "... src/main.i"
 	@echo "... src/main.s"
-	@echo "... src/spscqueue.o"
-	@echo "... src/spscqueue.i"
-	@echo "... src/spscqueue.s"
+	@echo "... src/ringbuffer.o"
+	@echo "... src/ringbuffer.i"
+	@echo "... src/ringbuffer.s"
 	@echo "... src/websocket.o"
 	@echo "... src/websocket.i"
 	@echo "... src/websocket.s"
