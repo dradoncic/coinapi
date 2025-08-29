@@ -76,56 +76,56 @@ CMakeFiles/coinapi.dir/src/main.cpp.o: CMakeFiles/coinapi.dir/flags.make
 CMakeFiles/coinapi.dir/src/main.cpp.o: /Users/deenradoncic/Desktop/code/coinapi/src/main.cpp
 CMakeFiles/coinapi.dir/src/main.cpp.o: CMakeFiles/coinapi.dir/compiler_depend.ts
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/deenradoncic/Desktop/code/coinapi/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/coinapi.dir/src/main.cpp.o"
-	/opt/homebrew/bin/aarch64-apple-darwin24-g++-15 $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/coinapi.dir/src/main.cpp.o -MF CMakeFiles/coinapi.dir/src/main.cpp.o.d -o CMakeFiles/coinapi.dir/src/main.cpp.o -c /Users/deenradoncic/Desktop/code/coinapi/src/main.cpp
+	/usr/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/coinapi.dir/src/main.cpp.o -MF CMakeFiles/coinapi.dir/src/main.cpp.o.d -o CMakeFiles/coinapi.dir/src/main.cpp.o -c /Users/deenradoncic/Desktop/code/coinapi/src/main.cpp
 
 CMakeFiles/coinapi.dir/src/main.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/coinapi.dir/src/main.cpp.i"
-	/opt/homebrew/bin/aarch64-apple-darwin24-g++-15 $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /Users/deenradoncic/Desktop/code/coinapi/src/main.cpp > CMakeFiles/coinapi.dir/src/main.cpp.i
+	/usr/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /Users/deenradoncic/Desktop/code/coinapi/src/main.cpp > CMakeFiles/coinapi.dir/src/main.cpp.i
 
 CMakeFiles/coinapi.dir/src/main.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/coinapi.dir/src/main.cpp.s"
-	/opt/homebrew/bin/aarch64-apple-darwin24-g++-15 $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /Users/deenradoncic/Desktop/code/coinapi/src/main.cpp -o CMakeFiles/coinapi.dir/src/main.cpp.s
+	/usr/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /Users/deenradoncic/Desktop/code/coinapi/src/main.cpp -o CMakeFiles/coinapi.dir/src/main.cpp.s
 
 CMakeFiles/coinapi.dir/src/websocket.cpp.o: CMakeFiles/coinapi.dir/flags.make
 CMakeFiles/coinapi.dir/src/websocket.cpp.o: /Users/deenradoncic/Desktop/code/coinapi/src/websocket.cpp
 CMakeFiles/coinapi.dir/src/websocket.cpp.o: CMakeFiles/coinapi.dir/compiler_depend.ts
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/deenradoncic/Desktop/code/coinapi/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object CMakeFiles/coinapi.dir/src/websocket.cpp.o"
-	/opt/homebrew/bin/aarch64-apple-darwin24-g++-15 $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/coinapi.dir/src/websocket.cpp.o -MF CMakeFiles/coinapi.dir/src/websocket.cpp.o.d -o CMakeFiles/coinapi.dir/src/websocket.cpp.o -c /Users/deenradoncic/Desktop/code/coinapi/src/websocket.cpp
+	/usr/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/coinapi.dir/src/websocket.cpp.o -MF CMakeFiles/coinapi.dir/src/websocket.cpp.o.d -o CMakeFiles/coinapi.dir/src/websocket.cpp.o -c /Users/deenradoncic/Desktop/code/coinapi/src/websocket.cpp
 
 CMakeFiles/coinapi.dir/src/websocket.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/coinapi.dir/src/websocket.cpp.i"
-	/opt/homebrew/bin/aarch64-apple-darwin24-g++-15 $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /Users/deenradoncic/Desktop/code/coinapi/src/websocket.cpp > CMakeFiles/coinapi.dir/src/websocket.cpp.i
+	/usr/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /Users/deenradoncic/Desktop/code/coinapi/src/websocket.cpp > CMakeFiles/coinapi.dir/src/websocket.cpp.i
 
 CMakeFiles/coinapi.dir/src/websocket.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/coinapi.dir/src/websocket.cpp.s"
-	/opt/homebrew/bin/aarch64-apple-darwin24-g++-15 $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /Users/deenradoncic/Desktop/code/coinapi/src/websocket.cpp -o CMakeFiles/coinapi.dir/src/websocket.cpp.s
+	/usr/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /Users/deenradoncic/Desktop/code/coinapi/src/websocket.cpp -o CMakeFiles/coinapi.dir/src/websocket.cpp.s
 
-CMakeFiles/coinapi.dir/src/ringbuffer.cpp.o: CMakeFiles/coinapi.dir/flags.make
-CMakeFiles/coinapi.dir/src/ringbuffer.cpp.o: /Users/deenradoncic/Desktop/code/coinapi/src/ringbuffer.cpp
-CMakeFiles/coinapi.dir/src/ringbuffer.cpp.o: CMakeFiles/coinapi.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/deenradoncic/Desktop/code/coinapi/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object CMakeFiles/coinapi.dir/src/ringbuffer.cpp.o"
-	/opt/homebrew/bin/aarch64-apple-darwin24-g++-15 $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/coinapi.dir/src/ringbuffer.cpp.o -MF CMakeFiles/coinapi.dir/src/ringbuffer.cpp.o.d -o CMakeFiles/coinapi.dir/src/ringbuffer.cpp.o -c /Users/deenradoncic/Desktop/code/coinapi/src/ringbuffer.cpp
+CMakeFiles/coinapi.dir/src/dispatcher.cpp.o: CMakeFiles/coinapi.dir/flags.make
+CMakeFiles/coinapi.dir/src/dispatcher.cpp.o: /Users/deenradoncic/Desktop/code/coinapi/src/dispatcher.cpp
+CMakeFiles/coinapi.dir/src/dispatcher.cpp.o: CMakeFiles/coinapi.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/deenradoncic/Desktop/code/coinapi/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object CMakeFiles/coinapi.dir/src/dispatcher.cpp.o"
+	/usr/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/coinapi.dir/src/dispatcher.cpp.o -MF CMakeFiles/coinapi.dir/src/dispatcher.cpp.o.d -o CMakeFiles/coinapi.dir/src/dispatcher.cpp.o -c /Users/deenradoncic/Desktop/code/coinapi/src/dispatcher.cpp
 
-CMakeFiles/coinapi.dir/src/ringbuffer.cpp.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/coinapi.dir/src/ringbuffer.cpp.i"
-	/opt/homebrew/bin/aarch64-apple-darwin24-g++-15 $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /Users/deenradoncic/Desktop/code/coinapi/src/ringbuffer.cpp > CMakeFiles/coinapi.dir/src/ringbuffer.cpp.i
+CMakeFiles/coinapi.dir/src/dispatcher.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/coinapi.dir/src/dispatcher.cpp.i"
+	/usr/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /Users/deenradoncic/Desktop/code/coinapi/src/dispatcher.cpp > CMakeFiles/coinapi.dir/src/dispatcher.cpp.i
 
-CMakeFiles/coinapi.dir/src/ringbuffer.cpp.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/coinapi.dir/src/ringbuffer.cpp.s"
-	/opt/homebrew/bin/aarch64-apple-darwin24-g++-15 $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /Users/deenradoncic/Desktop/code/coinapi/src/ringbuffer.cpp -o CMakeFiles/coinapi.dir/src/ringbuffer.cpp.s
+CMakeFiles/coinapi.dir/src/dispatcher.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/coinapi.dir/src/dispatcher.cpp.s"
+	/usr/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /Users/deenradoncic/Desktop/code/coinapi/src/dispatcher.cpp -o CMakeFiles/coinapi.dir/src/dispatcher.cpp.s
 
 # Object files for target coinapi
 coinapi_OBJECTS = \
 "CMakeFiles/coinapi.dir/src/main.cpp.o" \
 "CMakeFiles/coinapi.dir/src/websocket.cpp.o" \
-"CMakeFiles/coinapi.dir/src/ringbuffer.cpp.o"
+"CMakeFiles/coinapi.dir/src/dispatcher.cpp.o"
 
 # External object files for target coinapi
 coinapi_EXTERNAL_OBJECTS =
 
 coinapi: CMakeFiles/coinapi.dir/src/main.cpp.o
 coinapi: CMakeFiles/coinapi.dir/src/websocket.cpp.o
-coinapi: CMakeFiles/coinapi.dir/src/ringbuffer.cpp.o
+coinapi: CMakeFiles/coinapi.dir/src/dispatcher.cpp.o
 coinapi: CMakeFiles/coinapi.dir/build.make
 coinapi: /opt/homebrew/lib/libboost_filesystem.dylib
 coinapi: /opt/homebrew/Cellar/openssl@3/3.5.2/lib/libssl.dylib

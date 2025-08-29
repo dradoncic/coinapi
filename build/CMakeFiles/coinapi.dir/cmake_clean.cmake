@@ -1,8 +1,8 @@
 file(REMOVE_RECURSE
+  "CMakeFiles/coinapi.dir/src/dispatcher.cpp.o"
+  "CMakeFiles/coinapi.dir/src/dispatcher.cpp.o.d"
   "CMakeFiles/coinapi.dir/src/main.cpp.o"
   "CMakeFiles/coinapi.dir/src/main.cpp.o.d"
-  "CMakeFiles/coinapi.dir/src/ringbuffer.cpp.o"
-  "CMakeFiles/coinapi.dir/src/ringbuffer.cpp.o.d"
   "CMakeFiles/coinapi.dir/src/websocket.cpp.o"
   "CMakeFiles/coinapi.dir/src/websocket.cpp.o.d"
   "coinapi"

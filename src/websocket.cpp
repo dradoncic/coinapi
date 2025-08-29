@@ -33,7 +33,7 @@ void WebSocket::on_resolve(error_code ec, ip::tcp::resolver::results_type result
 {
     if (ec) { std::cerr << "Resolve: " << ec.message() << "\n"; return; }
     async_connect(ws_.next_layer().next_layer(), results.begin(), results.end(),
-        [this](error_code ec) { on_connect(ec); });
+        [this](error_code ec, auto) { on_connect(ec); });
 };
 
 /**
@@ -103,4 +103,6 @@ void WebSocket::on_read(error_code ec , std::size_t bytes_transferred)
 void WebSocket::set_message_handler(DispatcherHandler handler)
 {
     handler_ = std::move(handler);
+}
+
 }

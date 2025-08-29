@@ -1,8 +1,8 @@
 #pragma once
 #include <simdjson.h>
 #include "ringbuffer.h"
-#include "raw_message.h"
-#include "channel_type.h"
+#include "structs/raw_message.h"
+#include "enums/channel_type.h"
 
 class Dispatcher {
 public:

@@ -65,26 +65,6 @@ CMAKE_BINARY_DIR = /Users/deenradoncic/Desktop/code/coinapi/build
 #=============================================================================
 # Targets provided globally by CMake.
 
-# Special rule for the target package
-package: preinstall
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --cyan "Run CPack packaging tool..."
-	/Applications/CMake.app/Contents/bin/cpack --config ./CPackConfig.cmake
-.PHONY : package
-
-# Special rule for the target package
-package/fast: package
-.PHONY : package/fast
-
-# Special rule for the target package_source
-package_source:
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --cyan "Run CPack packaging tool for source..."
-	/Applications/CMake.app/Contents/bin/cpack --config ./CPackSourceConfig.cmake /Users/deenradoncic/Desktop/code/coinapi/build/CPackSourceConfig.cmake
-.PHONY : package_source
-
-# Special rule for the target package_source
-package_source/fast: package_source
-.PHONY : package_source/fast
-
 # Special rule for the target edit_cache
 edit_cache:
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --cyan "Running CMake cache editor..."
@@ -207,6 +187,30 @@ simdjson/fast:
 	$(MAKE) $(MAKESILENT) -f _deps/simdjson-build/CMakeFiles/simdjson.dir/build.make _deps/simdjson-build/CMakeFiles/simdjson.dir/build
 .PHONY : simdjson/fast
 
+src/dispatcher.o: src/dispatcher.cpp.o
+.PHONY : src/dispatcher.o
+
+# target to build an object file
+src/dispatcher.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/coinapi.dir/build.make CMakeFiles/coinapi.dir/src/dispatcher.cpp.o
+.PHONY : src/dispatcher.cpp.o
+
+src/dispatcher.i: src/dispatcher.cpp.i
+.PHONY : src/dispatcher.i
+
+# target to preprocess a source file
+src/dispatcher.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/coinapi.dir/build.make CMakeFiles/coinapi.dir/src/dispatcher.cpp.i
+.PHONY : src/dispatcher.cpp.i
+
+src/dispatcher.s: src/dispatcher.cpp.s
+.PHONY : src/dispatcher.s
+
+# target to generate assembly for a file
+src/dispatcher.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/coinapi.dir/build.make CMakeFiles/coinapi.dir/src/dispatcher.cpp.s
+.PHONY : src/dispatcher.cpp.s
+
 src/main.o: src/main.cpp.o
 .PHONY : src/main.o
 
@@ -230,30 +234,6 @@ src/main.s: src/main.cpp.s
 src/main.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/coinapi.dir/build.make CMakeFiles/coinapi.dir/src/main.cpp.s
 .PHONY : src/main.cpp.s
-
-src/ringbuffer.o: src/ringbuffer.cpp.o
-.PHONY : src/ringbuffer.o
-
-# target to build an object file
-src/ringbuffer.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/coinapi.dir/build.make CMakeFiles/coinapi.dir/src/ringbuffer.cpp.o
-.PHONY : src/ringbuffer.cpp.o
-
-src/ringbuffer.i: src/ringbuffer.cpp.i
-.PHONY : src/ringbuffer.i
-
-# target to preprocess a source file
-src/ringbuffer.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/coinapi.dir/build.make CMakeFiles/coinapi.dir/src/ringbuffer.cpp.i
-.PHONY : src/ringbuffer.cpp.i
-
-src/ringbuffer.s: src/ringbuffer.cpp.s
-.PHONY : src/ringbuffer.s
-
-# target to generate assembly for a file
-src/ringbuffer.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/coinapi.dir/build.make CMakeFiles/coinapi.dir/src/ringbuffer.cpp.s
-.PHONY : src/ringbuffer.cpp.s
 
 src/websocket.o: src/websocket.cpp.o
 .PHONY : src/websocket.o
@@ -290,17 +270,15 @@ help:
 	@echo "... install/local"
 	@echo "... install/strip"
 	@echo "... list_install_components"
-	@echo "... package"
-	@echo "... package_source"
 	@echo "... rebuild_cache"
 	@echo "... coinapi"
 	@echo "... simdjson"
+	@echo "... src/dispatcher.o"
+	@echo "... src/dispatcher.i"
+	@echo "... src/dispatcher.s"
 	@echo "... src/main.o"
 	@echo "... src/main.i"
 	@echo "... src/main.s"
-	@echo "... src/ringbuffer.o"
-	@echo "... src/ringbuffer.i"
-	@echo "... src/ringbuffer.s"
 	@echo "... src/websocket.o"
 	@echo "... src/websocket.i"
 	@echo "... src/websocket.s"
