@@ -1,8 +1,6 @@
 #include "websocket.h"
 #include <iostream>
 
-namespace coinbase {
-
 using namespace boost::asio;
 using namespace boost::beast;
 
@@ -103,6 +101,4 @@ void WebSocket::on_read(error_code ec , std::size_t bytes_transferred)
 void WebSocket::set_message_handler(DispatcherHandler handler)
 {
     handler_ = std::move(handler);
-}
-
-}
+};

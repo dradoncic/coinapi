@@ -1,17 +1,18 @@
 #include "dispatcher.h"
 #include <string>
 
-Dispatcher::Dispatcher(RingBuffer<RawMessage, 1024>& ticker_queue,
-                        RingBuffer<RawMessage, 1024>& orderbook_queue) :
+template<size_t TickerSize, size_t OrderbookSize>
+Dispatcher<TickerSize, OrderbookSize>::Dispatcher(RingBuffer<RawMessage, TickerSize>& ticker_queue,
+                        RingBuffer<RawMessage, OrderbookSize>& orderbook_queue) :
                         ticker_queue_{ticker_queue},
                         orderbook_queue_{orderbook_queue} {};
 
 /**
  * @brief dispatches incoming messages to correct queue
  */
-void Dispatcher::handle_message(const std::string& raw)
+template<size_t TickerSize, size_t OrderbookSize>
+void Dispatcher<TickerSize, OrderbookSize>::handle_message(const std::string& raw)
 {
-    simdjson::ondemand::parser parser;
     auto doc = parser.iterate(raw);
 
     std::string_view type;
@@ -33,7 +34,8 @@ void Dispatcher::handle_message(const std::string& raw)
         case ChannelType::TICKER:
             ticker_queue_.push(msg);
             break;
-        case (ChannelType::SNAPSHOT || ChannelType::L2UPDATE):
+        case ChannelType::SNAPSHOT:
+        case ChannelType::L2UPDATE:
             orderbook_queue_.push(msg);
             break;
         default:

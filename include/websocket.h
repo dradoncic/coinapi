@@ -9,15 +9,13 @@
 #include <nlohmann/json.hpp>
 #include "structs/raw_message.h"
 
-namespace coinbase {
-
 class WebSocket {
 public:
     WebSocket(boost::asio::io_context& ioc, boost::asio::ssl::context& ssL_ctx);
 
     void connect(const std::string& host, const std::string& port, const std::vector<std::string>& products);
 
-    using DispatcherHandler = std::function<void(std::string_view)>;
+    using DispatcherHandler = std::function<void(std::string)>;
     void set_message_handler(DispatcherHandler handler);
     
 private:
@@ -41,5 +39,3 @@ private:
 
     DispatcherHandler handler_;
 };
-
-}
