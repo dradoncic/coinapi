@@ -14,14 +14,16 @@ public:
 
     void handle_message(const std::string& raw)
     {
-        auto doc = parser_.iterate(raw);
+        simdjson::ondemand::parser parser;
+        simdjson::padded_string json(raw);
+        simdjson::ondemand::document doc = parser.iterate(json);
     
-        std::string_view type;
+        std::string_view type;  // type-safe
         if (doc["type"].get(type)) return;
     
         if (type == "subscriptions") return;
     
-        std::string_view product_id;
+        std::string_view product_id;  // type-safe
         if (doc["product_id"].get(product_id)) return;
     
         RawMessage msg;
@@ -48,5 +50,4 @@ public:
 private:
     RingBuffer<RawMessage, TickerSize>& ticker_queue_;
     RingBuffer<RawMessage, OrderbookSize>& orderbook_queue_;
-    simdjson::ondemand::parser parser_;
 };
