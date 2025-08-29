@@ -16,7 +16,6 @@ find_package(OpenSSL REQUIRED)
 add_executable(coinapi
     src/main.cpp
     src/websocket.cpp
-    src/dispatcher.cpp
 )
 
 include(FetchContent)
