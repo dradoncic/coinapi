@@ -1,6 +1,6 @@
 # Coinbase Market & Account Feed API
 
-
+```
                ┌─────────────────────┐
                │   Coinbase WS API   │
                └─────────┬───────────┘
@@ -70,3 +70,4 @@
             │    - bulk store (partitioned by date)  │
             │    - supports historical replay        │
             └────────────────────────────────────────┘
+```
