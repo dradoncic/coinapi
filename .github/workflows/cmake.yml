@@ -1,0 +1,34 @@
+name: CMake Build
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout source
+      uses: actions/checkout@v4
+
+    - name: Install dependencies 
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y \
+          clang \
+          cmake \
+          libboost-all-dev \
+          libssl-dev \
+          ninja-build
+
+    - name: Configure CMake
+      run: |
+        cmake -B build -G Ninja \
+          -DCMAKE_C_COMPILER=clang \
+          -DCMAKE_CXX_COMPILER=clang++
+      
+    - name: Build
+      run: cmake --build build -j$(nproc)
