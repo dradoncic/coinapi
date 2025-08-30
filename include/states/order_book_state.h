@@ -3,27 +3,32 @@
 #include <map>
 #include <utility>
 #include <shared_mutex>
+#include <mutex>
+#include <memory>
 #include <unordered_map>
 #include "structs/order_book.h"
 
 class OrderBookState {
-    public:
-        void update_book(const std::string& product, std::unique_ptr<OrderBook> newBook);
-        void add_order(const std::string& product, Side side, Price price, Volume size);
+public:
+    OrderBookState() = default;
 
-        std::shared_ptr<const OrderBook> get_snapshot(const std::string& product) const;
+    void ensure_product(const std::string& product);
+    void update_book(const std::string& product, std::unique_ptr<OrderBook> newBook);
+    void add_order(const std::string& product, Side side, Price price, Volume size);
 
-        struct FastQuote {
-            double best_bid = 0.0;
-            double best_ask = 0.0;
-            uint64_t sequence;
-        };
-        FastQuote get_fast_quote(const std::string& product) const;
-    
-    private:
-        mutable std::shared_mutex mtx_;
-        std::unordered_map<std::string, std::shared_ptr<OrderBook>> books_;
+    std::shared_ptr<const OrderBook> get_snapshot(const std::string& product) const;
 
-        mutable std::unordered_map<std::string, std::atomic<FastQuote>> fast_quotes_;
-        void update_fast_quote(const std::string& product, const OrderBook& book);
+private:
+    struct BookEntry {
+        std::atomic<std::shared_ptr<OrderBook>> book;
+
+        std::mutex writer_mutex;
+
+        BookEntry() {
+            book.store(std::make_shared<OrderBook>(), std::memory_order_relaxed);
+        }
     };
+
+    mutable std::shared_mutex map_mutex_;
+    std::unordered_map<std::string, std::unique_ptr<BookEntry>> books_;
+};

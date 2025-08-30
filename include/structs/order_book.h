@@ -2,54 +2,48 @@
 #include <utility>
 #include <vector>
 #include <map>
+#include <algorithm>
+#include <limits>
+#include <optional>
+#include <cassert>
+#include <cstdint> 
 #include "enums/order_side.h"
 
 class OrderBook {
 public:
-    std::vector<std::pair<Price, Volume>> bids;
-    std::vector<std::pair<Price, Volume>> asks;
-
-    inline void add_order(Side side, Price price, Volume size);
-
-    inline Price get_best_bid() const 
-    {
-        return bids.empty() ? 0.0 : bids.rbegin()->first;
+    OrderBook() {
+        bids_.reserve(1000);
+        asks_.reserve(1000);
+        sequence_ = 0;
+        best_bid_ = std::numeric_limits<double>::quiet_NaN();
+        best_ask_ = std::numeric_limits<double>::quiet_NaN();
     }
 
-    inline Price get_best_ask() const
-    {
-        return asks.empty() ? 0.0 : asks.rbegin()->first;
-    }
+    OrderBook(const OrderBook& book) = default;
+    OrderBook& operator=(const OrderBook& book) = default;
 
-    inline std::pair<Price, Volume> get_best_bid_level() const 
-    {
-        return bids.empty() ? std::make_pair(0.0, 0.0) : *bids.rbegin();
-    }
+    void set_level(Side side, Price price, Volume size);
 
-    inline std::pair<Price, Volume> get_best_ask_level() const 
-    {
-        return asks.empty() ? std::make_pair(0.0, 0.0) : *asks.rbegin();
-    }
+    inline std::vector<Level> get_bids() const { return bids_; };
+    inline std::vector<Level> get_asks() const { return asks_; };
 
-    inline void clear() {
-        bids.clear();
-        asks.clear();
-    }
+    inline Price best_bid() const { return best_bid_; };
+    inline Price best_ask() const { return best_ask_; };
+    inline uint64_t sequence() const { return sequence_; };
+
+    std::vector<Level> top_bids(size_t n) const;
+    std::vector<Level> top_asks(size_t n) const;
+
+    void reserve_levels(size_t bids, size_t asks);
 
 private:
-    template<class T, class Compare>
-    void insert_order(T& levels, Price price, Volume volume, Compare compare) 
-    {
-        auto it = std::lower_bound(levels.begin(), levels.end(), price,
-            [compare] (const auto& p, Price price) { return compare(p.first, price); });
-        
-        if (it !=  levels.end() && it->first == price) {
-            if (volume == 0) 
-                levels.erase(it);
-            else
-                it->second = volume;
-        } else if (volume > 0) {
-            levels.insert(it, std::make_pair(price, volume));
-        }
-    }
+    std::vector<Level> bids_;
+    std::vector<Level> asks_;
+
+    Price best_bid_;
+    Price best_ask_;
+    uint64_t sequence_;
+
+    static void insert_or_erase(std::vector<Level>& vec, Price price, Volume volume, bool descencding);
+    void refresh_bests();
 };
