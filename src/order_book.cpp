@@ -4,7 +4,6 @@
 #include "states/order_book_state.h"
 #include "structs/order_book.h"
 #include "order_book_worker.h"
-#include "enums/channel_type.h"
 
 
 inline void OrderBook::add_order(Side side, Price price, Volume size)
@@ -33,7 +32,7 @@ std::shared_ptr<const OrderBook> OrderBookState::get_snapshot(const std::string&
 {
     std::shared_lock<std::shared_mutex> mtx_;
     auto it = books_.find(product);
-    if (it == books_.end()) return;
+    if (it == books_.end()) return nullptr;
     return it->second;
 }
 
@@ -60,7 +59,8 @@ void OrderBookWorker::on_snapshot_message(const RawMessage& msg)
     simdjson::padded_string json(msg.payload);
     simdjson::ondemand::document doc = parser.iterate(json);
 
-    auto product = std::string(doc["product_id"]);
+    auto product_sv = doc["product_id"].get_string().value();
+    auto product = std::string(product_sv);
     auto newBook = std::make_unique<OrderBook>();
 
     for (auto bid : doc["bids"]) {
@@ -72,14 +72,14 @@ void OrderBookWorker::on_snapshot_message(const RawMessage& msg)
 
         ++it;
         auto size_sv  = (*it).get_string().value();
-        double size = std::stod(std::string(price_sv));
+        double size = std::stod(std::string(size_sv));
         
         newBook->add_order(Side::BID, price, size);
     }
 
     for (auto ask : doc["asks"]) {
         auto ask_arr = ask.get_array();
-        auto it = ask.begin();
+        auto it = ask_arr.begin();
 
         auto price_sv = (*it).get_string().value();
         double price = std::stod(std::string(price_sv));
@@ -100,7 +100,8 @@ void OrderBookWorker::on_level2_message(const RawMessage& msg)
     simdjson::padded_string json(msg.payload);
     simdjson::ondemand::document doc = parser.iterate(json);
 
-    auto product = std::string(doc["product_id"]);
+    auto product_sv = doc["product_id"].get_string().value();
+    auto product = std::string(product_sv);
     
     for (auto change : doc["changes"]) {
         auto change_arr = change.get_array();

@@ -1,6 +1,7 @@
 #pragma once
 #include "structs/raw_message.h"
 #include "states/order_book_state.h"
+#include "enums/channel_type.h"
 
 class OrderBookWorker {
     public:

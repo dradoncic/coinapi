@@ -44,7 +44,10 @@ private:
             [compare] (const auto& p, Price price) { return compare(p.first, price); });
         
         if (it !=  levels.end() && it->first == price) {
-            volume == 0 ? levels.erase(it) : it->second = volume;
+            if (volume == 0) 
+                levels.erase(it);
+            else
+                it->second = volume;
         } else if (volume > 0) {
             levels.insert(it, std::make_pair(price, volume));
         }
