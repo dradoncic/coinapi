@@ -16,16 +16,15 @@ void OrderBookWorker::on_message(const RawMessage& msg)
             on_snapshot_message(msg);
             break;
         default:
-            std::cerr << "Orderbook: missing channel type." << "\n";
+            std::cerr << "Orderbook: unknown channel type '" << msg.channel << "'\n";
             return;
     }
 }
 
 void OrderBookWorker::on_snapshot_message(const RawMessage& msg)
 {
-    simdjson::ondemand::parser parser;
     simdjson::padded_string json(msg.payload);
-    simdjson::ondemand::document doc = parser.iterate(json);
+    simdjson::ondemand::document doc = parser_.iterate(json);
 
     auto product_sv = doc["product_id"].get_string().value();
     auto product = std::string(product_sv);

@@ -20,15 +20,12 @@ public:
 
 private:
     struct BookEntry {
-        std::atomic<std::shared_ptr<OrderBook>> book;
+        std::shared_ptr<OrderBook> book;
+        std::shared_mutex mtx_book;
 
-        std::mutex writer_mutex;
-
-        BookEntry() {
-            book.store(std::make_shared<OrderBook>(), std::memory_order_relaxed);
-        }
+        BookEntry() : book{std::make_shared<OrderBook>()} {}
     };
 
-    mutable std::shared_mutex map_mutex_;
+    mutable std::shared_mutex mtx_orderbooks_;
     std::unordered_map<std::string, std::unique_ptr<BookEntry>> books_;
 };

@@ -3,9 +3,9 @@
 void OrderBook::set_level(Side side, Price price, Volume size)
 {
     if (side == Side::BID) {
-        insert_or_erase(bids_, price, size, true);
+        insert_or_erase(bids_, price, size, false);
     } else {
-        insert_or_erase(asks_, price, size, false);
+        insert_or_erase(asks_, price, size, true);
     }
 
     refresh_bests();
@@ -30,15 +30,11 @@ void OrderBook::reserve_levels(size_t bids, size_t asks)
     asks_.reserve(asks);
 }
 
-void OrderBook::insert_or_erase(std::vector<Level>& vec, Price price, Volume size, bool descending)
+void OrderBook::insert_or_erase(std::vector<Level>& vec, Price price, Volume size, bool use_greater)
 {
-    auto compare = [descending](Price p1, Price p2) {
-        return descending ? (p1 < p2) : (p1 > p2);
-    };
-
     auto it = std::lower_bound(vec.begin(), vec.end(), price, 
-                [compare](const Level& l, Price p) {
-                    return compare(l.price, p);
+                [use_greater](const Level& l, Price p) {
+                    return use_greater ? (l.price > p) : (l.price < p);
                 });
 
     if (it != vec.end() && it->price == price) {

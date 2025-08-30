@@ -5,7 +5,7 @@ set(CMAKE_CXX_COMPILER /usr/bin/clang++)
 
 project(coinapi)
 
-set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 cmake_policy(SET CMP0167 NEW)
@@ -18,6 +18,8 @@ add_executable(coinapi
     src/main.cpp
     src/websocket.cpp
     src/order_book.cpp
+    src/order_book_state.cpp
+    src/order_book_worker.cpp
 )
 
 include(FetchContent)

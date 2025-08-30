@@ -14,4 +14,5 @@ class OrderBookWorker {
         void on_snapshot_message(const RawMessage& json); 
     
         OrderBookState& state_;
+        mutable simdjson::ondemand::parser parser_;
     };

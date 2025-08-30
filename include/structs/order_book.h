@@ -44,6 +44,6 @@ private:
     Price best_ask_;
     uint64_t sequence_;
 
-    static void insert_or_erase(std::vector<Level>& vec, Price price, Volume volume, bool descencding);
+    static void insert_or_erase(std::vector<Level>& vec, Price price, Volume volume, bool use_greater);
     void refresh_bests();
 };
