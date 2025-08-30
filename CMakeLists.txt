@@ -12,6 +12,7 @@ cmake_policy(SET CMP0167 NEW)
 
 find_package(Boost REQUIRED COMPONENTS filesystem)
 find_package(OpenSSL REQUIRED)
+find_package(nlohmann_json 3.12.0 REQUIRED)
 
 add_executable(coinapi
     src/main.cpp
@@ -42,6 +43,7 @@ target_link_libraries(coinapi PRIVATE
     Boost::filesystem
     OpenSSL::SSL
     OpenSSL::Crypto
+    nlohmann_json::nlohmann_json
     pthread
     simdjson
 )
