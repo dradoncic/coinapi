@@ -17,7 +17,9 @@ inline void OrderBook::add_order(Side side, Price price, Volume size)
 void OrderBookState::update_book(const std::string& product, std::unique_ptr<OrderBook> newBook)
 {
     std::unique_lock<std::shared_mutex> lock(mtx_);
-    books_[product] = std::move(newBook);
+    books_[product] = std::shared_ptr<OrderBook>(std::move(newBook));
+
+    update_fast_quote(product, *books_[product]);
 }
 
 void OrderBookState::add_order(const std::string& product, Side side, Price price, Volume size)
@@ -25,15 +27,42 @@ void OrderBookState::add_order(const std::string& product, Side side, Price pric
     std::unique_lock<std::shared_mutex> lock(mtx_);
     auto it = books_.find(product);
     if (it == books_.end()) return;
-    it->second->add_order(side, price, size);
+
+    if (it->second.use_count() == 1){
+        it->second->add_order(side, price, size);
+    } else {
+        auto new_book = std::make_shared<OrderBook>(*it->second);
+        new_book->add_order(side, price, size);
+        it->second = new_book;
+    }
+
+    update_fast_quote(product, *it->second);
 }
 
 std::shared_ptr<const OrderBook> OrderBookState::get_snapshot(const std::string& product) const
 {
     std::shared_lock<std::shared_mutex> mtx_;
     auto it = books_.find(product);
-    if (it == books_.end()) return nullptr;
-    return it->second;
+    return (it == books_.end()) ? nullptr : it->second;
+}
+
+OrderBookState::FastQuote OrderBookState::get_fast_quote(const std::string& product) const
+{
+    auto it = fast_quotes_.find(product);
+    if (!(it == fast_quotes_.end())) {
+        return it->second.load(std::memory_order_acquire);
+    }
+    return FastQuote{};
+}
+
+void OrderBookState::update_fast_quote(const std::string& product, const OrderBook& book) 
+{
+    FastQuote quote;
+    quote.best_bid = book.get_best_bid ();
+    quote.best_ask = book.get_best_ask();
+    quote.sequence++;
+
+    fast_quotes_[product].store(quote, std::memory_order_release);
 }
 
 OrderBookWorker::OrderBookWorker(OrderBookState& state) : state_(state) {}
