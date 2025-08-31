@@ -1,152 +1,60 @@
-#include <string>
-#include <simdjson.h>
-#include "enums/order_side.h"
-#include "states/order_book_state.h"
 #include "structs/order_book.h"
-#include "order_book_worker.h"
 
-
-inline void OrderBook::add_order(Side side, Price price, Volume size)
+void OrderBook::set_level(Side side, Price price, Volume size)
 {
-    if (side == Side::BID)
-        return insert_order(bids, price, size, std::less<Price>());
-    else
-        return insert_order(asks, price, size, std::greater<Price>());
-}
-
-void OrderBookState::update_book(const std::string& product, std::unique_ptr<OrderBook> newBook)
-{
-    std::unique_lock<std::shared_mutex> lock(mtx_);
-    books_[product] = std::shared_ptr<OrderBook>(std::move(newBook));
-
-    update_fast_quote(product, *books_[product]);
-}
-
-void OrderBookState::add_order(const std::string& product, Side side, Price price, Volume size)
-{
-    std::unique_lock<std::shared_mutex> lock(mtx_);
-    auto it = books_.find(product);
-    if (it == books_.end()) return;
-
-    if (it->second.use_count() == 1){
-        it->second->add_order(side, price, size);
+    if (side == Side::BID) {
+        insert_or_erase(bids_, price, size, false);
     } else {
-        auto new_book = std::make_shared<OrderBook>(*it->second);
-        new_book->add_order(side, price, size);
-        it->second = new_book;
+        insert_or_erase(asks_, price, size, true);
     }
 
-    update_fast_quote(product, *it->second);
+    refresh_bests();
+    ++sequence_;
 }
 
-std::shared_ptr<const OrderBook> OrderBookState::get_snapshot(const std::string& product) const
+std::vector<Level> OrderBook::top_bids(size_t n) const 
 {
-    std::shared_lock<std::shared_mutex> mtx_;
-    auto it = books_.find(product);
-    return (it == books_.end()) ? nullptr : it->second;
+    size_t m = std::min(n, bids_.size());
+    return std::vector<Level>(bids_.rbegin(), bids_.rbegin() + m);
 }
 
-OrderBookState::FastQuote OrderBookState::get_fast_quote(const std::string& product) const
+std::vector<Level> OrderBook::top_asks(size_t n) const 
 {
-    auto it = fast_quotes_.find(product);
-    if (!(it == fast_quotes_.end())) {
-        return it->second.load(std::memory_order_acquire);
-    }
-    return FastQuote{};
+    size_t m = std::min(n, asks_.size());
+    return std::vector<Level>(asks_.rbegin(), asks_.rbegin() + m);
 }
 
-void OrderBookState::update_fast_quote(const std::string& product, const OrderBook& book) 
+void OrderBook::reserve_levels(size_t bids, size_t asks) 
 {
-    FastQuote quote;
-    quote.best_bid = book.get_best_bid ();
-    quote.best_ask = book.get_best_ask();
-    quote.sequence++;
-
-    fast_quotes_[product].store(quote, std::memory_order_release);
+    bids_.reserve(bids);
+    asks_.reserve(asks);
 }
 
-OrderBookWorker::OrderBookWorker(OrderBookState& state) : state_(state) {}
-
-void OrderBookWorker::on_message(const RawMessage& msg) 
+void OrderBook::insert_or_erase(std::vector<Level>& vec, Price price, Volume size, bool use_greater)
 {
-    switch (channelMap[msg.channel]) {
-        case ChannelType::L2UPDATE:
-            on_level2_message(msg);
-            break;
-        case ChannelType::SNAPSHOT:
-            on_snapshot_message(msg);
-            break;
-        default:
-            std::cerr << "Orderbook: missing channel type." << "\n";
-            return;
-    }
-}
+    auto it = std::lower_bound(vec.begin(), vec.end(), price, 
+                [use_greater](const Level& l, Price p) {
+                    return use_greater ? (l.price > p) : (l.price < p);
+                });
 
-void OrderBookWorker::on_snapshot_message(const RawMessage& msg)
-{
-    simdjson::ondemand::parser parser;
-    simdjson::padded_string json(msg.payload);
-    simdjson::ondemand::document doc = parser.iterate(json);
-
-    auto product_sv = doc["product_id"].get_string().value();
-    auto product = std::string(product_sv);
-    auto newBook = std::make_unique<OrderBook>();
-
-    for (auto bid : doc["bids"]) {
-        auto bid_arr = bid.get_array();
-        auto it = bid_arr.begin();
-
-        auto price_sv = (*it).get_string().value();
-        double price = std::stod(std::string(price_sv));
-
-        ++it;
-        auto size_sv  = (*it).get_string().value();
-        double size = std::stod(std::string(size_sv));
-        
-        newBook->add_order(Side::BID, price, size);
+    if (it != vec.end() && it->price == price) {
+        if (size == 0.0)
+            vec.erase(it);
+        else
+            it->size = size;
+        return;
     }
 
-    for (auto ask : doc["asks"]) {
-        auto ask_arr = ask.get_array();
-        auto it = ask_arr.begin();
+    if (size == 0.0) return;
 
-        auto price_sv = (*it).get_string().value();
-        double price = std::stod(std::string(price_sv));
-
-        ++it;
-        auto size_sv = (*it).get_string().value();
-        double size = std::stod(std::string(size_sv));
-
-        newBook->add_order(Side::ASK, price, size);
-    }
-
-    state_.update_book(product, std::move(newBook));
+    vec.insert(it, Level{price, size});
 }
 
-void OrderBookWorker::on_level2_message(const RawMessage& msg) 
+void OrderBook::refresh_bests()
 {
-    simdjson::ondemand::parser parser;
-    simdjson::padded_string json(msg.payload);
-    simdjson::ondemand::document doc = parser.iterate(json);
+    if (!bids_.empty()) best_bid_ = bids_.rbegin()->price;
+    else best_bid_ = std::numeric_limits<double>::quiet_NaN();
 
-    auto product_sv = doc["product_id"].get_string().value();
-    auto product = std::string(product_sv);
-    
-    for (auto change : doc["changes"]) {
-        auto change_arr = change.get_array();
-        auto it = change_arr.begin();
-
-        auto side_sv = (*it).get_string().value();
-        Side side = std::string(side_sv) == "buy" ? Side::BID : Side::ASK;
-
-        ++it;
-        auto price_sv  = (*it).get_string().value();
-        double price = std::stod(std::string(price_sv));
-
-        ++it;
-        auto size_sv = (*it).get_string().value();
-        double size = std::stod(std::string(size_sv));
-
-        state_.add_order(product, side, price, size);
-    }
+    if (!asks_.empty()) best_ask_ = asks_.rbegin()->price;
+    else best_ask_ = std::numeric_limits<double>::quiet_NaN();
 }
