@@ -3,8 +3,11 @@
 #include "enums/order_side.h"
 #include "states/order_book_state.h"
 #include "structs/order_book.h"
-#include "order_book_worker.h"
-OrderBookWorker::OrderBookWorker(OrderBookState& state) : state_(state) {}
+#include "workers/order_book_worker.h"
+
+OrderBookWorker::OrderBookWorker(OrderBookState& state, LevelTape& tape) :
+                    state_(state),
+                    tape_(tape) {}
 
 void OrderBookWorker::on_message(const RawMessage& msg) 
 {

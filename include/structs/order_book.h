@@ -11,7 +11,8 @@
 
 class OrderBook {
 public:
-    OrderBook() {
+    OrderBook() 
+    {
         bids_.reserve(1000);
         asks_.reserve(1000);
         sequence_ = 0;
