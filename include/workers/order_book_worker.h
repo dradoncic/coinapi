@@ -11,8 +11,8 @@ class OrderBookWorker {
         void on_message(const RawMessage& json);
     
     private:
-        void on_level2_message(const RawMessage& json);
-        void on_snapshot_message(const RawMessage& json); 
+        void handle_level2_message(const RawMessage& json);
+        void handle_snapshot_message(const RawMessage& json); 
     
         OrderBookState& state_;
         LevelTape& tape_;

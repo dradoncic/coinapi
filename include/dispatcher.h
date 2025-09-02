@@ -47,6 +47,6 @@ public:
     }
 
 private:
-    RingBuffer<RawMessage, TickerSize>& ticker_queue_;
-    RingBuffer<RawMessage, OrderbookSize>& orderbook_queue_;
+    RingBuffer<RawMessage>& ticker_queue_;
+    RingBuffer<RawMessage>& orderbook_queue_;
 };
