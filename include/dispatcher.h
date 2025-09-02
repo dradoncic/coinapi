@@ -4,11 +4,10 @@
 #include "structs/raw_message.h"
 #include "enums/channel_type.h"
 
-template<size_t TickerSize, size_t OrderbookSize>
 class Dispatcher {
 public:
-    Dispatcher(RingBuffer<RawMessage, TickerSize>& ticker_queue,
-                RingBuffer<RawMessage, OrderbookSize>& orderbook_queue) :
+    Dispatcher(RingBuffer<RawMessage>& ticker_queue,
+                RingBuffer<RawMessage>& orderbook_queue) :
                 ticker_queue_{ticker_queue},
                 orderbook_queue_{orderbook_queue} {};
 
