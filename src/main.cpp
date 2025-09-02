@@ -13,8 +13,8 @@ int main(int argc, char** argv) {
     ssl_ctx.set_default_verify_paths();
     ssl_ctx.set_verify_mode(boost::asio::ssl::verify_peer);
 
-    RingBuffer<RawMessage, 2048> ticker_queue;
-    RingBuffer<RawMessage, 8192> orderbook_queue;
+    RingBuffer<RawMessage> ticker_queue(2048);
+    RingBuffer<RawMessage> orderbook_queue(8192);
 
     Dispatcher dispatcher(ticker_queue, orderbook_queue);
     WebSocket ws(ioc, ssl_ctx);
