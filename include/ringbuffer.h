@@ -3,10 +3,10 @@
 #include <atomic>
 #include <optional>
 
-template<typename T, size_t Size>
+template<typename T>
 class RingBuffer {
 public:
-    RingBuffer() : head_{0}, tail_{0}
+    RingBuffer(size_t size) : head_{0}, tail_{0}
     {
         buffer_.resize(Size);
     }
