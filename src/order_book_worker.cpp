@@ -39,12 +39,10 @@ void OrderBookWorker::on_snapshot_message(const RawMessage& msg)
         auto bid_arr = bid.get_array();
         auto it = bid_arr.begin();
 
-        auto price_sv = (*it).get_string().value();
-        double price = std::stod(std::string(price_sv));
+        auto price = (*it).get_double().value();
 
         ++it;
-        auto size_sv  = (*it).get_string().value();
-        double size = std::stod(std::string(size_sv));
+        auto size  = (*it).get_double().value();
         
         newBook->set_level(Side::BID, price, size);
     }
@@ -53,12 +51,10 @@ void OrderBookWorker::on_snapshot_message(const RawMessage& msg)
         auto ask_arr = ask.get_array();
         auto it = ask_arr.begin();
 
-        auto price_sv = (*it).get_string().value();
-        double price = std::stod(std::string(price_sv));
+        auto price = (*it).get_double().value();
 
         ++it;
-        auto size_sv = (*it).get_string().value();
-        double size = std::stod(std::string(size_sv));
+        auto size = (*it).get_double().value();
 
         newBook->set_level(Side::ASK, price, size);
     }
@@ -83,12 +79,10 @@ void OrderBookWorker::on_level2_message(const RawMessage& msg)
         Side side = std::string(side_sv) == "buy" ? Side::BID : Side::ASK;
 
         ++it;
-        auto price_sv  = (*it).get_string().value();
-        double price = std::stod(std::string(price_sv));
+        auto price  = (*it).get_double ().value();
 
         ++it;
-        auto size_sv = (*it).get_string().value();
-        double size = std::stod(std::string(size_sv));
+        auto size = (*it).get_double().value();
 
         state_.add_order(product, side, price, size);
     }
