@@ -7,23 +7,6 @@ import time
 import uuid
 
 WS_URL = "wss://ws-feed.exchange.coinbase.com"
-API_KEY = ""
-SIGNING_KEY = ""
-
-def generate_jwt():
-    current_time = int(time.time())
-    payload = {
-        "iss": "cdp",
-        "nbf": current_time,
-        "exp": current_time + 120,  # valid for 120 seconds
-        "sub": API_KEY,
-    }
-    headers = {
-        "kid": API_KEY,
-        "nonce": uuid.uuid4().hex
-    }
-    token = jwt.encode(payload, SIGNING_KEY, algorithm="ES256", headers=headers)
-    return token
 
 async def coinbase_websocket():
     # Create SSL context that ignores certificate verification
@@ -39,8 +22,7 @@ async def coinbase_websocket():
             subscribe_message = {
                 "type": "subscribe",
                 "product_ids": ["BTC-USD"],
-                "channels": ["ticker"],
-                "jwt": generate_jwt()
+                "channels": ["heartbeat"]
             }
             
             await websocket.send(json.dumps(subscribe_message))

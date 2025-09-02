@@ -1,6 +1,7 @@
 #pragma once
 #include <unordered_map>
 #include <mutex>
+#include <simdjson.h>
 #include "states/trade_tape.h"
 #include "structs/raw_message.h"
 #include "structs/backfill_req.h"
@@ -17,8 +18,8 @@ private:
     void handle_match_message(const RawMessage& msg);
     void handle_heartbeat_message(const RawMessage& msg);
 
-    TradeEvent parse_match(const RawMessage& msg);
-    HeartbeatEvent parse_heartbeat(const RawMessage& msg);
+    TradeEvent parse_match_event(const RawMessage& msg);
+    HeartbeatEvent parse_heartbeat_event(const RawMessage& msg);
 
     TradeTape& trade_tape_;
     RingBuffer<BackFillRequest>& back_queue_;
@@ -30,4 +31,6 @@ private:
 
     std::unordered_map<std::string, uint64_t> last_match_seq_;
     std::unordered_map<std::string, uint64_t> last_hb_seq_;
+
+    simdjson::ondemand::parser parser_;
 };

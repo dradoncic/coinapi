@@ -13,10 +13,10 @@ void OrderBookWorker::on_message(const RawMessage& msg)
 {
     switch (channelMap[msg.channel]) {
         case ChannelType::L2UPDATE:
-            on_level2_message(msg);
+            handle_level2_message(msg);
             break;
         case ChannelType::SNAPSHOT:
-            on_snapshot_message(msg);
+            handle_snapshot_message(msg);
             break;
         default:
             std::cerr << "Orderbook: unknown channel type '" << msg.channel << "'\n";
@@ -24,12 +24,12 @@ void OrderBookWorker::on_message(const RawMessage& msg)
     }
 }
 
-void OrderBookWorker::on_snapshot_message(const RawMessage& msg)
+void OrderBookWorker::handle_snapshot_message(const RawMessage& msg)
 {
     simdjson::padded_string json(msg.payload);
     simdjson::ondemand::document doc = parser_.iterate(json);
 
-    auto product_sv = doc["product_id"].get_string().value();
+    auto product_sv = doc["product"].get_string().value();
     auto product = std::string(product_sv);
 
     auto newBook = std::make_unique<OrderBook>();
@@ -62,7 +62,7 @@ void OrderBookWorker::on_snapshot_message(const RawMessage& msg)
     state_.update_book(product, std::move(newBook));
 }
 
-void OrderBookWorker::on_level2_message(const RawMessage& msg) 
+void OrderBookWorker::handle_level2_message(const RawMessage& msg) 
 {
     simdjson::ondemand::parser parser;
     simdjson::padded_string json(msg.payload);
