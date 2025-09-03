@@ -15,6 +15,7 @@ find_package(OpenSSL REQUIRED)
 find_package(nlohmann_json REQUIRED)
 find_package(Threads REQUIRED)
 find_package(CURL REQUIRED)
+find_package(jwt-cpp CONFIG REQUIRED)
 
 file(GLOB_RECURSE SRC_FILES CONFIGURE_DEPENDS src/*.cpp)
 
@@ -48,5 +49,6 @@ target_link_libraries(coinapi PRIVATE
     Threads::Threads
     simdjson
     CURL::libcurl
+    jwt-cpp::jwt-cpp
 )
 
