@@ -28,9 +28,6 @@ std::string generate_nonce()
 std::string build_jwt(const std::string& api_key, const std::string& pem_key) 
 {
 
-    std::cout << api_key << "\n";
-    std::cout << pem_key << "\n";
-
     auto token = jwt::create()
         .set_issuer("coinbase-cloud")
         .set_subject(api_key)
