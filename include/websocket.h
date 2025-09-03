@@ -8,6 +8,7 @@
 #include <simdjson.h>
 #include <nlohmann/json.hpp>
 #include "structs/raw_message.h"
+#include "authentication.h"
 
 namespace beast = boost::beast;
 namespace http = beast::http;
@@ -17,7 +18,7 @@ namespace ip = boost::asio::ip;
 
 class WebSocket {
 public:
-    WebSocket(net::io_context& ioc, net::ssl::context& ssL_ctx);
+    WebSocket(Authenticator& authenticator, net::io_context& ioc, net::ssl::context& ssL_ctx);
 
     void connect(const std::string& host, const std::string& port, const std::vector<std::string>& products);
 
@@ -43,5 +44,6 @@ private:
     std::string port_;
     std::vector<std::string> products_;
 
+    Authenticator& auth_;
     DispatcherHandler handler_;
 };

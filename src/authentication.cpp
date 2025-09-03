@@ -7,7 +7,14 @@
 #include <openssl/sha.h>
 #include "authentication.h"
 
-std::string generate_nonce() 
+Authenticator::Authenticator(const std::string& env_path, const std::string& pem_path) :
+                                env_path_(env_path),
+                                pem_path_(pem_path)
+{
+    fetch_api_keys();
+}
+
+std::string Authenticator::generate_nonce() 
 {
     unsigned char bytes[16];
     std::random_device rd;
@@ -25,22 +32,29 @@ std::string generate_nonce()
     return oss.str();
 }
 
-std::string build_jwt(const std::string& api_key, const std::string& pem_key) 
+std::string Authenticator::build_jwt() 
 {
 
     auto token = jwt::create()
         .set_issuer("coinbase-cloud")
-        .set_subject(api_key)
+        .set_subject(api_key_)
         .set_not_before(std::chrono::system_clock::now())
         .set_expires_at(std::chrono::system_clock::now() + std::chrono::seconds{120})
-        .set_header_claim("kid", jwt::claim(std::string(api_key)))
+        .set_header_claim("kid", jwt::claim(std::string(api_key_)))
         .set_header_claim("nonce", jwt::claim(generate_nonce()))
-        .sign(jwt::algorithm::es256{"", pem_key});
+        .sign(jwt::algorithm::es256{"", pem_key_});
 
     return token;
 }
 
-std::unordered_map<std::string, std::string> read_env_file(const std::string& path) 
+void Authenticator::fetch_api_keys()
+{
+    api_key_ = read_env_file(env_path_)["API_KEY"];
+    pem_key_ = read_pem_file(pem_path_);
+}
+
+
+std::unordered_map<std::string, std::string> Authenticator::read_env_file(const std::string& path) 
 {
     std::unordered_map<std::string, std::string> env;
     std::ifstream file(path);
@@ -67,7 +81,7 @@ std::unordered_map<std::string, std::string> read_env_file(const std::string& pa
     return env;
 }
 
-std::string read_pem_file(const std::string& path) 
+std::string Authenticator::read_pem_file(const std::string& path) 
 {
     std::ifstream file(path);
     if (!file.is_open()) throw std::runtime_error("Cannot open PEM file");
