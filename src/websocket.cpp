@@ -62,12 +62,12 @@ void WebSocket::on_handshake(error_code ec)
     if (ec) { std::cerr << "Handshake: " << ec.message() << "\n"; return; }
 
     nlohmann::json subscribe_msg;
-    subscribe_msg["type"] = "suscribe";
+    subscribe_msg["type"] = "subscribe";
     subscribe_msg["channels"] = {{{"name", "ticker"},{"product_ids", products_}}};
 
     write_buffer_ = subscribe_msg.dump();
 
-    ws_.async_write(boost::asio::buffer(write_buffer_),
+    ws_.async_write(net::buffer(write_buffer_),
         [this](error_code ec, size_t bytes_transferred) { 
             if (ec) {std::cerr << "Subscribe: " << ec.message() << "\n"; return; }
             ws_.async_read(read_buffer_, [this](error_code ec, size_t bytes_transferred) {
@@ -84,7 +84,7 @@ void WebSocket::on_read(error_code ec , std::size_t bytes_transferred)
     if (ec) { std::cerr << "Read: " << ec.message() << "\n"; return; }
 
     auto message = buffers_to_string(read_buffer_.data());
-    read_buffer_.consume(read_buffer_.size());
+    read_buffer_.consume(bytes_transferred);
 
     if (handler_) {
         handler_(message);
