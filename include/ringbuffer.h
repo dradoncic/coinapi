@@ -25,16 +25,16 @@ public:
         return true;
     }
 
-    std::optional<T> pop()
+    bool pop(T& out)
     {
         size_t curr_tail = tail_.load(std::memory_order_relaxed);
 
         // if tail catches up to head, the buffer is empty
-        if (curr_tail == head_.load(std::memory_order_acquire)) return {};
+        if (curr_tail == head_.load(std::memory_order_acquire)) return false;
         
-        T item =  buffer_[curr_tail];
+        out =  buffer_[curr_tail];
         tail_.store((curr_tail +  1) % Size, std::memory_order_release);
-        return item;
+        return true;
     }
 
 private:
