@@ -8,10 +8,10 @@
 #include "structs/raw_message.h"
 
 int main(int argc, char** argv) {
-    boost::asio::io_context ioc;
-    boost::asio::ssl::context ssl_ctx(boost::asio::ssl::context::tlsv12_client);
+    net::io_context ioc;
+    net::ssl::context ssl_ctx(net::ssl::context::tlsv12_client);
     ssl_ctx.set_default_verify_paths();
-    ssl_ctx.set_verify_mode(boost::asio::ssl::verify_peer);
+    ssl_ctx.set_verify_mode(net::ssl::verify_peer);
 
     RingBuffer<RawMessage> ticker_queue(2048);
     RingBuffer<RawMessage> orderbook_queue(8192);

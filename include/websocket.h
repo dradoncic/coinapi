@@ -9,9 +9,15 @@
 #include <nlohmann/json.hpp>
 #include "structs/raw_message.h"
 
+namespace beast = boost::beast;
+namespace http = beast::http;
+namespace websocket = beast::websocket;
+namespace net = boost::asio;
+namespace ip = boost::asio::ip;
+
 class WebSocket {
 public:
-    WebSocket(boost::asio::io_context& ioc, boost::asio::ssl::context& ssL_ctx);
+    WebSocket(net::io_context& ioc, net::ssl::context& ssL_ctx);
 
     void connect(const std::string& host, const std::string& port, const std::vector<std::string>& products);
 
@@ -19,18 +25,18 @@ public:
     void set_message_handler(DispatcherHandler handler);
     
 private:
-    void on_resolve(boost::beast::error_code ec, boost::asio::ip::tcp::resolver::results_type results);
-    void on_connect(boost::beast::error_code ec);
-    void on_ssl_handshake(boost::beast::error_code ec);
-    void on_handshake(boost::beast::error_code ec);
-    void on_read(boost::beast::error_code ec, size_t bytes_transferred);
+    void on_resolve(beast::error_code ec, ip::tcp::resolver::results_type results);
+    void on_connect(beast::error_code ec);
+    void on_ssl_handshake(beast::error_code ec);
+    void on_handshake(beast::error_code ec);
+    void on_read(beast::error_code ec, size_t bytes_transferred);
 
-    boost::asio::io_context& ioc_; // schedules and executes all of the asynchronous network operations
-    boost::asio::ssl::context& ssl_ctx_; // ssl/tls configuratio context
-    boost::beast::websocket::stream<boost::beast::ssl_stream<boost::asio::ip::tcp::socket>> ws_; // websocket object
-    boost::asio::ip::tcp::resolver resolver_; // resolves domains
+    net::io_context& ioc_; // schedules and executes all of the asynchronous network operations
+    net::ssl::context& ssl_ctx_; // ssl/tls configuration context
+    websocket::stream<beast::ssl_stream<ip::tcp::socket>> ws_; // websocket object
+    ip::tcp::resolver resolver_; // resolves domains
 
-    boost::beast::flat_buffer read_buffer_;  // internally managed buffer
+    beast::flat_buffer read_buffer_;  // internally managed buffer
     std::string write_buffer_; // temporary write buffer
 
     std::string host_;
