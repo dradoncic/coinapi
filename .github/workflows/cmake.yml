@@ -1,8 +1,6 @@
 name: CMake Build
 
 on:
-  push:
-    branches: [ main ]
   pull_request:
     branches: [ main ]
 
@@ -21,7 +19,7 @@ jobs:
         key: ${{ runner.os }}-apt-${{ hashFiles('.github/workflows/**') }}
         restore-keys: |
           ${{ runner.os }}-apt-
-          
+
     - name: Install dependencies 
       run: |
         sudo apt-get update

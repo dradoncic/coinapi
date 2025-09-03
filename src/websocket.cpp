@@ -71,8 +71,6 @@ void WebSocket::on_ssl_handshake(beast::error_code ec)
         return; 
     }
 
-    std::cout << "SSL handshake successful!" << std::endl;
-
     ws_.async_handshake(host_, "/",
         [this](beast::error_code ec) { on_handshake(ec); });
 };
@@ -88,7 +86,9 @@ void WebSocket::on_handshake(beast::error_code ec)
     subscribe_msg["type"] = "subscribe";
     subscribe_msg["channel"] = "ticker";
     subscribe_msg["product_ids"] = products_;
-    subscribe_msg["jwt"] = build_JWT(API_KEY, PRIVATE_KEY);
+    subscribe_msg["jwt"] = build_jwt(API_KEY, PRIVATE_KEY);
+
+    std::cout << build_jwt(API_KEY, PRIVATE_KEY) << "\n";
 
     write_buffer_ = subscribe_msg.dump();
 

@@ -16,9 +16,6 @@ int main(int argc, char** argv) {
     API_KEY = env["API_KEY"];
     PRIVATE_KEY = read_pem_file("/Users/deenradoncic/Desktop/code/coinapi/private_key.pem");
 
-    std::cout << API_KEY << "\n";
-    std::cout << PRIVATE_KEY << "\n";
-
     net::io_context ioc;
     net::ssl::context ssl_ctx(net::ssl::context::tls_client);
     
