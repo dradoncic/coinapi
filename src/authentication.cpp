@@ -16,7 +16,7 @@
 #include "authentication.h"
 
 
-std::string base64UrlEncode(const std::string& input)
+std::string base64_url_encode(const std::string& input)
 {
     BIO *b64 = BIO_new(BIO_f_base64());
     BIO_set_flags(b64, BIO_FLAGS_BASE64_NO_NL);
@@ -40,7 +40,7 @@ std::string base64UrlEncode(const std::string& input)
     return b64str;
 }
 
-std::string signES256(const std::string& data, const std::string& pem_private_key) 
+std::string sign_ES256(const std::string& data, const std::string& pem_private_key) 
 {
     BIO *bio = BIO_new_mem_buf(pem_private_key.data(), pem_private_key.size());
     EVP_PKEY* pkey = PEM_read_bio_PrivateKey(bio, nullptr, nullptr, nullptr);
@@ -60,11 +60,11 @@ std::string signES256(const std::string& data, const std::string& pem_private_ke
     EVP_MD_CTX_free(ctx);
     EVP_PKEY_free(pkey);
 
-    return base64UrlEncode(signature);
+    return base64_url_encode(signature);
 }
 
 
-std::string generateNonce() 
+std::string generate_nonce() 
 {
     std::random_device rd;
     unsigned char bytes[16];
@@ -77,12 +77,12 @@ std::string generateNonce()
     return oss.str();
 }
 
-std::string buildJWT(const std::string& api_key, const std::string& pem_key) 
+std::string build_JWT(const std::string& api_key, const std::string& pem_key) 
 {
     nlohmann::json header = {
         {"alg", "ES256"},
         {"kid", api_key},
-        {"nonce", generateNonce()}
+        {"nonce", generate_nonce()}
     };
     nlohmann::json payload = {
         {"iss", "coinbase-cloud"},
@@ -91,36 +91,46 @@ std::string buildJWT(const std::string& api_key, const std::string& pem_key)
         {"exp", std::time(nullptr)+120}
     };
 
-    std::string headerStr = base64UrlEncode(header.dump());
-    std::string payloadStr = base64UrlEncode(payload.dump());
+    std::string headerStr = base64_url_encode(header.dump());
+    std::string payloadStr = base64_url_encode(payload.dump());
     std::string signing_input = headerStr + "." + payloadStr;
 
-    std::string signature = signES256(signing_input, pem_key);
+    std::string signature = sign_ES256(signing_input, pem_key);
 
     return signing_input + "." + signature;
 }
 
-std::unordered_map<std::string, std::string> readEnvFile(const std::string& path) {
+std::unordered_map<std::string, std::string> read_env_file(const std::string& path) {
     std::unordered_map<std::string, std::string> env;
     std::ifstream file(path);
     if (!file.is_open()) throw std::runtime_error("Cannot open .env file");
 
     std::string line;
     while (std::getline(file, line)) {
+        // trim spaces
         line.erase(std::remove_if(line.begin(), line.end(), ::isspace), line.end());
         if (line.empty() || line[0]=='#') continue;
 
         auto pos = line.find('=');
-        if(pos == std::string::npos) continue;
+        if (pos == std::string::npos) continue;
 
         std::string key = line.substr(0, pos);
         std::string value = line.substr(pos+1);
 
-        // remove quotes if any
-        if(!value.empty() && value.front()=='"' && value.back()=='"')
+        // remove quotes if present
+        if (!value.empty() && value.front()=='"' && value.back()=='"')
             value = value.substr(1, value.size()-2);
 
         env[key] = value;
     }
     return env;
+}
+
+std::string read_pem_file(const std::string& path) {
+    std::ifstream file(path);
+    if (!file.is_open()) throw std::runtime_error("Cannot open PEM file");
+
+    std::stringstream buffer;
+    buffer << file.rdbuf();
+    return buffer.str();
 }

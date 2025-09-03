@@ -36,11 +36,18 @@ void WebSocket::on_resolve(beast::error_code ec, ip::tcp::resolver::results_type
 };
 
 /**
- * @brief TCP connected
+ * @brief TCP connected - with SNI support 
  */
 void WebSocket::on_connect(beast::error_code ec) 
 {
     if (ec) { std::cerr << "Connect: " << ec.message() << "\n"; return; }
+
+    if (!SSL_set_tlsext_host_name(ws_.next_layer().native_handle(), host_.c_str())) {
+        beast::error_code ec_sni{static_cast<int>(::ERR_get_error()), net::error::get_ssl_category()};
+        std::cerr << "SNI: " << ec_sni.message() << "\n";
+        return;
+    }
+
     ws_.next_layer().async_handshake(net::ssl::stream_base::client,
         [this](beast::error_code ec) { on_ssl_handshake(ec); });
 };
@@ -50,7 +57,22 @@ void WebSocket::on_connect(beast::error_code ec)
  */
 void WebSocket::on_ssl_handshake(beast::error_code ec) 
 {
-    if (ec) { std::cerr << "SSL Handshake: " << ec.message() << "\n"; return; }
+    if (ec) { 
+        std::cerr << "SSL Handshake error: " << ec.message() << std::endl;
+        std::cerr << "Error code: " << ec.value() << std::endl;
+        std::cerr << "Error category: " << ec.category().name() << std::endl;
+        
+        unsigned long ssl_err;
+        while ((ssl_err = ERR_get_error()) != 0) {
+            char err_buf[256];
+            ERR_error_string_n(ssl_err, err_buf, sizeof(err_buf));
+            std::cerr << "OpenSSL error: " << err_buf << std::endl;
+        }
+        return; 
+    }
+
+    std::cout << "SSL handshake successful!" << std::endl;
+
     ws_.async_handshake(host_, "/",
         [this](beast::error_code ec) { on_handshake(ec); });
 };
@@ -66,7 +88,7 @@ void WebSocket::on_handshake(beast::error_code ec)
     subscribe_msg["type"] = "subscribe";
     subscribe_msg["channel"] = "ticker";
     subscribe_msg["product_ids"] = products_;
-    subscribe_msg["jwt"] = buildJWT(API_KEY, PRIVATE_KEY);
+    subscribe_msg["jwt"] = build_JWT(API_KEY, PRIVATE_KEY);
 
     write_buffer_ = subscribe_msg.dump();
 
