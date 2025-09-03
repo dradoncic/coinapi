@@ -12,6 +12,7 @@ find_package(Boost REQUIRED COMPONENTS filesystem)
 find_package(OpenSSL REQUIRED)
 find_package(nlohmann_json REQUIRED)
 find_package(Threads REQUIRED)
+find_package(CURL REQUIRED)
 
 file(GLOB_RECURSE SRC_FILES CONFIGURE_DEPENDS src/*.cpp)
 
@@ -43,5 +44,6 @@ target_link_libraries(coinapi PRIVATE
     nlohmann_json::nlohmann_json
     Threads::Threads
     simdjson
+    CURL::libcurl
 )
 
