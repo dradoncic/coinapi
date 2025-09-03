@@ -6,7 +6,7 @@ import jwt
 import time
 import uuid
 
-WS_URL = "wss://ws-feed.exchange.coinbase.com"
+WS_URL = "wss://advanced-trade-ws.coinbase.com"
 
 async def coinbase_websocket():
     # Create SSL context that ignores certificate verification
