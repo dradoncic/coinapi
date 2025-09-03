@@ -2,10 +2,8 @@
 #include "authentication.h"
 #include <iostream>
 
-extern std::string API_KEY;
-extern std::string PRIVATE_KEY;
-
-WebSocket::WebSocket(boost::asio::io_context& ioc, boost::asio::ssl::context& ssl_ctx) :
+WebSocket::WebSocket(Authenticator& authenticator, boost::asio::io_context& ioc, boost::asio::ssl::context& ssl_ctx) :
+                                auth_(authenticator),
                                 ioc_(ioc),
                                 ssl_ctx_(ssl_ctx),
                                 ws_(ioc, ssl_ctx),
@@ -86,9 +84,7 @@ void WebSocket::on_handshake(beast::error_code ec)
     subscribe_msg["type"] = "subscribe";
     subscribe_msg["channel"] = "ticker";
     subscribe_msg["product_ids"] = products_;
-    subscribe_msg["jwt"] = build_jwt(API_KEY, PRIVATE_KEY);
-
-    std::cout << build_jwt(API_KEY, PRIVATE_KEY) << "\n";
+    subscribe_msg["jwt"] = auth_.build_jwt();
 
     write_buffer_ = subscribe_msg.dump();
 

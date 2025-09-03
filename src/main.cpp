@@ -8,13 +8,9 @@
 #include "structs/raw_message.h"
 #include "authentication.h"
 
-std::string API_KEY;
-std::string PRIVATE_KEY;
-
 int main(int argc, char** argv) {
-    auto env = read_env_file("/Users/deenradoncic/Desktop/code/coinapi/.env");
-    API_KEY = env["API_KEY"];
-    PRIVATE_KEY = read_pem_file("/Users/deenradoncic/Desktop/code/coinapi/private_key.pem");
+    Authenticator auth{"/Users/deenradoncic/Desktop/code/coinapi/.env",
+                        "/Users/deenradoncic/Desktop/code/coinapi/private_key.pem"};
 
     net::io_context ioc;
     net::ssl::context ssl_ctx(net::ssl::context::tls_client);
@@ -33,7 +29,7 @@ int main(int argc, char** argv) {
 
     SSL_CTX_set_tlsext_servername_callback(ssl_ctx.native_handle(), nullptr);
 
-    WebSocket ws(ioc, ssl_ctx);
+    WebSocket ws(auth, ioc, ssl_ctx);
     ws.set_message_handler([](const std::string& msg){
         std::cout << "Received: " << msg << std::endl;
     });
