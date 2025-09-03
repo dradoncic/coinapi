@@ -1,4 +1,4 @@
-
+#include <algorithm>
 #include "states/trade_tape.h"
 #include "structs/trade_event.h"
 
