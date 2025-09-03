@@ -32,6 +32,13 @@ jobs:
           nlohmann-json3-dev \
           libcurl4-openssl-dev
 
+    - name: Build & Install jwt-cpp
+      run: |
+        git clone https://github.com/Thalhammer/jwt-cpp.git
+        cmake -S jwt-cpp -B jwt-cpp/build -DCMAKE_INSTALL_PREFIX=/usr/local
+        cmake --build jwt-cpp/build
+        sudo cmake --install jwt-cpp/build
+
     - name: Configure CMake
       run: |
         cmake -B build -G Ninja \
