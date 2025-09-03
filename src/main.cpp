@@ -6,32 +6,27 @@
 #include "dispatcher.h"
 #include "ringbuffer.h"
 #include "structs/raw_message.h"
+#include "authentication.h"
+
+std::string API_KEY;
+std::string PRIVATE_KEY;
 
 int main(int argc, char** argv) {
-    net::io_context ioc;
-    net::ssl::context ssl_ctx(net::ssl::context::tlsv12_client);
-    ssl_ctx.set_default_verify_paths();
-    ssl_ctx.set_verify_mode(net::ssl::verify_peer);
+    auto env = readEnvFile("/Users/deenradoncic/Desktop/code/coinapi/.env");
+    API_KEY = env["API_KEY"];
+    PRIVATE_KEY = env["PRIVATE_KEY"];
 
-    RingBuffer<RawMessage> ticker_queue(2048);
-    RingBuffer<RawMessage> orderbook_queue(8192);
+    boost::asio::io_context ioc;
+    boost::asio::ssl::context ssl_ctx(boost::asio::ssl::context::tlsv12_client);
 
-    Dispatcher dispatcher(ticker_queue, orderbook_queue);
+    ssl_ctx.set_default_verify_paths(); // use system CA
+    ssl_ctx.set_verify_mode(boost::asio::ssl::verify_peer);
+
     WebSocket ws(ioc, ssl_ctx);
+    ws.set_message_handler([](const std::string& msg){
+        std::cout << "Received: " << msg << std::endl;
+    });
 
-    ws.set_message_handler([&dispatcher](std::string raw) { dispatcher.handle_message(raw); });
-
-    std::string host  = "ws-feed.exchange.coinbase.com";
-    std::string port = "443";
-    std::vector<std::string> products =  {"BTC_USD"};
-
-    ws.connect("wss://" + host, port, products);
-
-    std::thread io_thread([&ioc]() { ioc.run(); });
-
-    std::cout << "Press Enter to quit...\n";
-    std::cin.get();
-
-    ioc.stop();
-    io_thread.join();
+    ws.connect("advanced-trade-ws.coinbase.com", "443", {"BTC-USD"});
+    ioc.run();
 }
