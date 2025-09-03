@@ -31,7 +31,7 @@ void BackFillWorker::loop()
     while (running_.load(std::memory_order_acquire)) {
         BackFillRequest req;
         if (back_queue_.pop(req)) {
-            try { std::cout << "here" << "\n"; }
+            try { std::cout << "here" << "\n"; }    // process_request(req);
             catch (const std::exception& e) {
                 std::cerr << "[BackFill] Error: " << e.what() << "\n";
             }
