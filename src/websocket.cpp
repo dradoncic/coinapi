@@ -10,7 +10,7 @@ WebSocket::WebSocket(Authenticator& authenticator, boost::asio::io_context& ioc,
                                 resolver_(ioc) {};
 
 /**
- * @brief connect and resolve
+ * @brief asynchronous DNS resolution
  */
 void WebSocket::connect(const std::string& host, const std::string& port, const std::vector<std::string>& products) 
 {
@@ -24,7 +24,7 @@ void WebSocket::connect(const std::string& host, const std::string& port, const 
 };
 
 /**
- * @brief DNS resolution han
+ * @brief initiates non-blocking TCP connection of the underlying socket to the resolved endpoints
  */
 void WebSocket::on_resolve(beast::error_code ec, ip::tcp::resolver::results_type results) 
 {
@@ -34,7 +34,7 @@ void WebSocket::on_resolve(beast::error_code ec, ip::tcp::resolver::results_type
 };
 
 /**
- * @brief TCP connected - with SNI support 
+ * @brief sets SNI on the SSL object & performs the TLS handshake
  */
 void WebSocket::on_connect(beast::error_code ec) 
 {
@@ -51,7 +51,7 @@ void WebSocket::on_connect(beast::error_code ec)
 };
 
 /**
- * @brief SSL handshake complete
+ * @brief performs WebSocket handshake using the already-establish TLS connection
  */
 void WebSocket::on_ssl_handshake(beast::error_code ec) 
 {
@@ -74,7 +74,7 @@ void WebSocket::on_ssl_handshake(beast::error_code ec)
 };
 
 /**
- * @brief subscribes to ticker channel & start reading
+ * @brief sends subscribe message & starts to read the loop
  */
 void WebSocket::on_handshake(beast::error_code ec) 
 {
@@ -98,7 +98,7 @@ void WebSocket::on_handshake(beast::error_code ec)
 };
 
 /**
- * @brief continously read messages
+ * @brief continously recieves & read messages
  */
 void WebSocket::on_read(beast::error_code ec , std::size_t bytes_transferred) 
 {

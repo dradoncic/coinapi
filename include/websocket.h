@@ -16,6 +16,10 @@ namespace websocket = beast::websocket;
 namespace net = boost::asio;
 namespace ip = boost::asio::ip;
 
+
+/**
+ * @brief asynchronous websocket implementation with provided handlers (allows one thread to run many sockets)
+ */
 class WebSocket {
 public:
     WebSocket(Authenticator& authenticator, net::io_context& ioc, net::ssl::context& ssL_ctx);
@@ -32,7 +36,7 @@ private:
     void on_handshake(beast::error_code ec);
     void on_read(beast::error_code ec, size_t bytes_transferred);
 
-    net::io_context& ioc_; // schedules and executes all of the asynchronous network operations
+    net::io_context& ioc_; // event loop, i.e. schedules and executes all of the asynchronous network operations
     net::ssl::context& ssl_ctx_; // ssl/tls configuration context
     websocket::stream<beast::ssl_stream<ip::tcp::socket>> ws_; // websocket object
     ip::tcp::resolver resolver_; // resolves domains

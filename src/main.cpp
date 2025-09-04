@@ -15,7 +15,7 @@ int main(int argc, char** argv) {
     net::io_context ioc;
     net::ssl::context ssl_ctx(net::ssl::context::tls_client);
     
-    // Set SSL options
+    // Set SSL options & configure TLS behavior
     ssl_ctx.set_options(
         net::ssl::context::default_workarounds |
         net::ssl::context::no_sslv2 |
