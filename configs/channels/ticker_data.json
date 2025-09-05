@@ -1,0 +1,129 @@
+{
+    {
+        "channel": "ticker",
+        "client_id": "",
+        "timestamp": "2025-09-05T17:19:54.603312573Z",
+        "sequence_num": 0,
+        "events": [
+            {
+                "type": "snapshot",
+                "tickers": [
+                    {
+                        "type": "ticker",
+                        "product_id": "BTC-USD",
+                        "price": "110719.23",
+                        "volume_24_h": "6643.4018461",
+                        "low_24_h": "109611.05",
+                        "high_24_h": "113390",
+                        "low_52_w": "52530",
+                        "high_52_w": "124533",
+                        "price_percent_chg_24_h": "0.90321398838858",
+                        "best_bid": "110706.55",
+                        "best_ask": "110715.22",
+                        "best_bid_quantity": "0.02660346",
+                        "best_ask_quantity": "0.03999896"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "channel": "subscriptions",
+        "client_id": "",
+        "timestamp": "2025-09-05T17:19:54.603330854Z",
+        "sequence_num": 1,
+        "events": [
+            {
+                "subscriptions": {
+                    "ticker": [
+                        "BTC-USD"
+                    ]
+                }
+            }
+        ]
+    },
+    {
+        "channel": "ticker",
+        "client_id": "",
+        "timestamp": "2025-09-05T17:19:54.727994172Z",
+        "sequence_num": 2,
+        "events": [
+            {
+                "type": "update",
+                "tickers": [
+                    {
+                        "type": "ticker",
+                        "product_id": "BTC-USD",
+                        "price": "110719.23",
+                        "volume_24_h": "6643.4018461",
+                        "low_24_h": "109611.05",
+                        "high_24_h": "113390",
+                        "low_52_w": "52530",
+                        "high_52_w": "124533",
+                        "price_percent_chg_24_h": "0.90321398838858",
+                        "best_bid": "110705.71",
+                        "best_ask": "110708.78",
+                        "best_bid_quantity": "0.00999287",
+                        "best_ask_quantity": "0.0090327"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "channel": "ticker",
+        "client_id": "",
+        "timestamp": "2025-09-05T17:19:54.839111762Z",
+        "sequence_num": 3,
+        "events": [
+            {
+                "type": "update",
+                "tickers": [
+                    {
+                        "type": "ticker",
+                        "product_id": "BTC-USD",
+                        "price": "110715.22",
+                        "volume_24_h": "6643.4018461",
+                        "low_24_h": "109611.05",
+                        "high_24_h": "113390",
+                        "low_52_w": "52530",
+                        "high_52_w": "124533",
+                        "price_percent_chg_24_h": "0.89955950227904",
+                        "best_bid": "110705.71",
+                        "best_ask": "110708.78",
+                        "best_bid_quantity": "0.00999287",
+                        "best_ask_quantity": "0.0090327"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "channel": "ticker",
+        "client_id": "",
+        "timestamp": "2025-09-05T17:19:54.9787425Z",
+        "sequence_num": 4,
+        "events": [
+            {
+                "type": "update",
+                "tickers": [
+                    {
+                        "type": "ticker",
+                        "product_id": "BTC-USD",
+                        "price": "110715.22",
+                        "volume_24_h": "6643.4018461",
+                        "low_24_h": "109611.05",
+                        "high_24_h": "113390",
+                        "low_52_w": "52530",
+                        "high_52_w": "124533",
+                        "price_percent_chg_24_h": "0.89955950227904",
+                        "best_bid": "110703.45",
+                        "best_ask": "110703.46",
+                        "best_bid_quantity": "0.02062917",
+                        "best_ask_quantity": "0.00813883"
+                    }
+                ]
+            }
+        ]
+    },
+}

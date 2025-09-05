@@ -8,9 +8,12 @@
 #include "curl/curl.h"
 #include "workers/backfill_worker.h"
 
-BackFillWorker::BackFillWorker(TradeTape& tape, RingBuffer<BackFillRequest>& queue) :
+BackFillWorker::BackFillWorker(TradeTape& tape, 
+                                RingBuffer<BackFillRequest>& queue,
+                                Authenticator& auth) :
                                 trade_tape_{tape},
-                                back_queue_{queue} {}
+                                back_queue_{queue},
+                                auth_{auth} {}
 
 BackFillWorker::~BackFillWorker() { stop(); }
 

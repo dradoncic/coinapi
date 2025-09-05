@@ -12,11 +12,14 @@ WebSocket::WebSocket(Authenticator& authenticator, boost::asio::io_context& ioc,
 /**
  * @brief asynchronous DNS resolution
  */
-void WebSocket::connect(const std::string& host, const std::string& port, const std::vector<std::string>& products) 
+void WebSocket::connect(const std::string& host, const std::string& port, 
+                        const std::string& channel, 
+                        const std::vector<std::string>& products) 
 {
     host_ = host;
     port_ = port;
     products_ = products;
+    channel_ =  channel;
 
     resolver_.async_resolve(host, port, [this](beast::error_code ec, net::ip::tcp::resolver::results_type results) {
         on_resolve(ec, results);
@@ -82,7 +85,7 @@ void WebSocket::on_handshake(beast::error_code ec)
 
     nlohmann::json subscribe_msg;
     subscribe_msg["type"] = "subscribe";
-    subscribe_msg["channel"] = "ticker";
+    subscribe_msg["channel"] = channel_;
     subscribe_msg["product_ids"] = products_;
     subscribe_msg["jwt"] = auth_.build_jwt();
 
@@ -109,6 +112,17 @@ void WebSocket::on_read(beast::error_code ec , std::size_t bytes_transferred)
 
     if (handler_) {
         handler_(message);
+    }
+
+    message_count_++;
+
+    if (message_count_ >= max_messages_) {
+        std::cout << "}" << "\n";
+        ws_.async_close(websocket::close_code::normal,
+            [this](beast::error_code ec) {
+                if (ec) std::cerr << "Close: " << ec.message() << "\n";
+            });
+        return;
     }
 
     ws_.async_read(read_buffer_, [this](beast::error_code ec, size_t bytes_transferred) {

@@ -24,7 +24,9 @@ class WebSocket {
 public:
     WebSocket(Authenticator& authenticator, net::io_context& ioc, net::ssl::context& ssL_ctx);
 
-    void connect(const std::string& host, const std::string& port, const std::vector<std::string>& products);
+    void connect(const std::string& host, const std::string& port, 
+                    const std::string& channel,
+                    const std::vector<std::string>& products);
 
     using DispatcherHandler = std::function<void(std::string)>;
     void set_message_handler(DispatcherHandler handler);
@@ -47,6 +49,10 @@ private:
     std::string host_;
     std::string port_;
     std::vector<std::string> products_;
+    std::string channel_;
+
+    int message_count_ = 0;
+    int max_messages_ = 5; 
 
     Authenticator& auth_;
     DispatcherHandler handler_;
