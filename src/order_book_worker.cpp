@@ -5,17 +5,23 @@
 #include "structs/order_book.h"
 #include "workers/order_book_worker.h"
 
-OrderBookWorker::OrderBookWorker(OrderBookState& state, LevelTape& tape) :
-                    state_(state),
-                    tape_(tape) {}
+OrderBookWorker::OrderBookWorker(OrderBookState& state) :
+                    state_(state) {}
 
 void OrderBookWorker::on_message(const RawMessage& msg) 
 {
-    switch (channelMap[msg.channel]) {
-        case ChannelType::L2UPDATE:
-            handle_level2_message(msg);
+    simdjson::padded_string json (msg.payload);
+    simdjson::ondemand::document doc = parser_.iterate(json);
+
+    simdjson::ondemand::array events = doc["events"];
+    simdjson::ondemand::object event = events.at(0).get_object();
+    std::string_view msg_type = event["type"].get_string();
+    
+    switch (messageMap[msg_type]) {
+        case Message::UPDATE:
+            handle_update_message(msg);
             break;
-        case ChannelType::SNAPSHOT:
+        case Message::SNAPSHOT:
             handle_snapshot_message(msg);
             break;
         default:
@@ -29,60 +35,69 @@ void OrderBookWorker::handle_snapshot_message(const RawMessage& msg)
     simdjson::padded_string json(msg.payload);
     simdjson::ondemand::document doc = parser_.iterate(json);
 
-    auto product_sv = doc["product"].get_string().value();
+    simdjson::ondemand::array events = doc["events"];
+    simdjson::ondemand::object event = events.at(0).get_object();
+
+    std::string_view product_sv = event["product_id"].get_string();
     auto product = std::string(product_sv);
 
     auto newBook = std::make_unique<OrderBook>();
-    newBook->reserve_levels(1024, 1024);
+    newBook->reserve_levels(2048, 2048);
 
-    for (auto bid : doc["bids"]) {
-        auto bid_arr = bid.get_array();
-        auto it = bid_arr.begin();
+    simdjson::ondemand::array orders = event["updates"];
 
-        auto price = (*it).get_double().value();
+    for (auto order : orders) {
+        simdjson::ondemand::object order_obj = order.get_object();
 
-        ++it;
-        auto size  = (*it).get_double().value();
-        
-        newBook->set_level(Side::BID, price, size);
-    }
+        std::string_view side_sv;
+        side_sv = order_obj["side"].get_string();
+        Side side = (side_sv == "bid") ? Side::BID : Side::ASK;
 
-    for (auto ask : doc["asks"]) {
-        auto ask_arr = ask.get_array();
-        auto it = ask_arr.begin();
+        double price = 0, size = 0;
+        std::string_view price_sv, qty_sv;
+    
+        price_sv = order_obj["price_level"].get_string();
+        qty_sv = order_obj["new_quantity"].get_string();
 
-        auto price = (*it).get_double().value();
+        price = std::stod(std::string(price_sv));
+        size  = std::stod(std::string(qty_sv));
 
-        ++it;
-        auto size = (*it).get_double().value();
-
-        newBook->set_level(Side::ASK, price, size);
+        newBook->set_level(side, price, size);
     }
 
     state_.update_book(product, std::move(newBook));
 }
 
-void OrderBookWorker::handle_level2_message(const RawMessage& msg) 
+void OrderBookWorker::handle_update_message(const RawMessage& msg) 
 {
     simdjson::ondemand::parser parser;
     simdjson::padded_string json(msg.payload);
     simdjson::ondemand::document doc = parser.iterate(json);
 
-    auto product_sv = doc["product_id"].get_string().value();
+    simdjson::ondemand::array events = doc["events"];
+    simdjson::ondemand::object event = events.at(0).get_object();
+
+    std::string_view product_sv = event["product_id"].get_string();
     auto product = std::string(product_sv);
+
+    simdjson::ondemand::array updates = event["updates"];
+
+    for (auto change : updates) {
+        simdjson::ondemand::object change_obj = change.get_object();
+
+        std::string_view side_sv;
+        side_sv = change_obj["side"].get_string();
+        Side side = (side_sv == "bid") ? Side::BID : Side::ASK;
+
+        double price = 0, size = 0;
+        std::string_view price_sv, qty_sv;
     
-    for (auto change : doc["changes"]) {
-        auto change_arr = change.get_array();
-        auto it = change_arr.begin();
+        price_sv = change_obj["price_level"].get_string();
+        qty_sv = change_obj["new_quantity"].get_string();
 
-        auto side_sv = (*it).get_string().value();
-        Side side = std::string(side_sv) == "buy" ? Side::BID : Side::ASK;
+        price = std::stod(std::string(price_sv));
+        size  = std::stod(std::string(qty_sv));
 
-        ++it;
-        auto price  = (*it).get_double ().value();
-
-        ++it;
-        auto size = (*it).get_double().value();
 
         state_.add_order(product, side, price, size);
     }

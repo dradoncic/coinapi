@@ -11,17 +11,18 @@ TradeWorker::TradeWorker(TradeTape& tape, RingBuffer<BackFillRequest>& queue) :
 
 void TradeWorker::on_message(const RawMessage& msg)
 {
-    switch (channelMap[msg.channel]) {
-        case ChannelType::MATCH:
-            handle_match_message(msg);
-            break;
-        case ChannelType::HEARTBEAT:
-            handle_heartbeat_message(msg);
-            break;
-        default:
-            std::cerr << "Trades: unknown channel type '" << msg.channel << "'\n";
-            return;
-    }
+    return;
+    // switch (channelMap[msg.channel]) {
+    //     case ChannelType::MATCH:
+    //         handle_match_message(msg);
+    //         break;
+    //     case ChannelType::HEARTBEAT:
+    //         handle_heartbeat_message(msg);
+    //         break;
+    //     default:
+    //         std::cerr << "Trades: unknown channel type '" << msg.channel << "'\n";
+    //         return;
+    // }
 }
 
 TradeEvent TradeWorker::parse_match_event(const RawMessage& msg)

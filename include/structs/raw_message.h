@@ -1,8 +1,8 @@
 #pragma once
 #include <string>
+#include "enums/channel_type.h"
 
 struct RawMessage {
-    std::string channel;
-    std::string product_id;
+    Channel channel;
     std::string_view payload;
 };

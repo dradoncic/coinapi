@@ -7,38 +7,37 @@
 class Dispatcher {
 public:
     Dispatcher(RingBuffer<RawMessage>& ticker_queue,
-                RingBuffer<RawMessage>& orderbook_queue) :
+                RingBuffer<RawMessage>& orderbook_queue,
+                RingBuffer<RawMessage>& trade_queue) :
                 ticker_queue_{ticker_queue},
-                orderbook_queue_{orderbook_queue} {};
+                orderbook_queue_{orderbook_queue},
+                trade_queue_{trade_queue} {};
 
     void handle_message(const std::string& raw)
     {
         simdjson::ondemand::parser parser;
         simdjson::padded_string json(raw);
         simdjson::ondemand::document doc = parser.iterate(json);
-    
-        std::string_view type;  // type-safe
-        if (doc["type"].get(type)) return;
-    
-        if (type == "subscriptions") return;
-    
-        std::string_view product_id;  // type-safe
-        if (doc["product_id"].get(product_id)) return;
-    
+
+        std::string_view channel = doc["channel"];
+
+        if (channel == "subscriptions" || "heartbeats") return;
+        
+        Channel channel_type = channelMap.at(channel);
+
         RawMessage msg;
-        msg.channel = std::string(type);
-        msg.product_id = std::string(product_id);
+        msg.channel = channel_type;  
         msg.payload = raw;
     
-        ChannelType channel_type = channelMap.at(std::string(type));
-    
         switch (channel_type) {
-            case ChannelType::TICKER:
+            case Channel::TICKER:
                 ticker_queue_.push(msg);
                 break;
-            case ChannelType::SNAPSHOT:
-            case ChannelType::L2UPDATE:
+            case Channel::LEVEL2:
                 orderbook_queue_.push(msg);
+                break;
+            case Channel::TRADE:
+                trade_queue_.push(msg);
                 break;
             default:
                 std::cerr << "WebSocket: channel not yet supported." << "\n";
@@ -49,4 +48,5 @@ public:
 private:
     RingBuffer<RawMessage>& ticker_queue_;
     RingBuffer<RawMessage>& orderbook_queue_;
+    RingBuffer<RawMessage>& trade_queue_;
 };

@@ -1,6 +1,7 @@
 #include <iostream>
 #include <thread>
 #include <vector>
+#include <chrono>
 #include <boost/asio.hpp>
 #include "websocket.h"
 #include "dispatcher.h"
@@ -31,9 +32,12 @@ int main(int argc, char** argv) {
 
     WebSocket ws(auth, ioc, ssl_ctx);
     ws.set_message_handler([](const std::string& msg){
-        std::cout << "Received: " << msg << std::endl;
+        std::cout << msg << "," << "\n";
     });
 
-    ws.connect("advanced-trade-ws.coinbase.com", "443", {"BTC-USD"});
+    std::string channel = argv[1];
+    std::string ticker = argv[2];
+    std::cout << "{" << "\n";
+    ws.connect("advanced-trade-ws.coinbase.com", "443", channel, {ticker});
     ioc.run();
 }

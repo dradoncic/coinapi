@@ -1,0 +1,65 @@
+{
+    {
+        "channel": "subscriptions",
+        "client_id": "",
+        "timestamp": "2025-09-05T17:21:27.974294661Z",
+        "sequence_num": 0,
+        "events": [
+            {
+                "subscriptions": {
+                    "heartbeats": [
+                        "heartbeats"
+                    ]
+                }
+            }
+        ]
+    },
+    {
+        "channel": "heartbeats",
+        "client_id": "",
+        "timestamp": "2025-09-05T17:21:28.75148334Z",
+        "sequence_num": 1,
+        "events": [
+            {
+                "current_time": "2025-09-05 17:21:28.748627895 +0000 UTC m=+3002.314535353",
+                "heartbeat_counter": 3002
+            }
+        ]
+    },
+    {
+        "channel": "heartbeats",
+        "client_id": "",
+        "timestamp": "2025-09-05T17:21:29.751383637Z",
+        "sequence_num": 2,
+        "events": [
+            {
+                "current_time": "2025-09-05 17:21:29.748665509 +0000 UTC m=+3003.314572966",
+                "heartbeat_counter": 3003
+            }
+        ]
+    },
+    {
+        "channel": "heartbeats",
+        "client_id": "",
+        "timestamp": "2025-09-05T17:21:30.74911775Z",
+        "sequence_num": 3,
+        "events": [
+            {
+                "current_time": "2025-09-05 17:21:30.748635874 +0000 UTC m=+3004.314543331",
+                "heartbeat_counter": 3004
+            }
+        ]
+    },
+    {
+        "channel": "heartbeats",
+        "client_id": "",
+        "timestamp": "2025-09-05T17:21:31.752043758Z",
+        "sequence_num": 4,
+        "events": [
+            {
+                "current_time": "2025-09-05 17:21:31.74861201 +0000 UTC m=+3005.314519467",
+                "heartbeat_counter": 3005
+            }
+        ]
+    },
+}
