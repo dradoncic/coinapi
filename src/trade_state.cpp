@@ -1,11 +1,11 @@
 #include <algorithm>
-#include "states/trade_tape.h"
+#include "states/trade_state.h"
 #include "structs/trade_event.h"
 
 /**
  * @brief synchronized store, multiple threads access this structure
  */
-void TradeTape::add_trade(const TradeEvent& trade)
+void TradeState::add_trade(const TradeEvent& trade)
 {
     std::lock_guard<std::mutex> lock(mtx_trade_);
     auto& vec = trades_[trade.product_id];
@@ -21,7 +21,7 @@ void TradeTape::add_trade(const TradeEvent& trade)
     vec.insert(it, trade);
 }
 
-std::vector<TradeEvent> TradeTape::get_trades(const std::string& product_id) const
+std::vector<TradeEvent> TradeState::get_trades(const std::string& product_id) const
 {
     std::lock_guard<std::mutex> lock(mtx_trade_);
     auto it = trades_.find(product_id);

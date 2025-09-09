@@ -13,7 +13,7 @@ public:
                 orderbook_queue_{orderbook_queue},
                 trade_queue_{trade_queue} {};
 
-    void handle_message(const std::string& raw)
+    void handle_message(const std::string_view& raw)
     {
         simdjson::ondemand::parser parser;
         simdjson::padded_string json(raw);

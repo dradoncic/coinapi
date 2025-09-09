@@ -4,13 +4,13 @@
 #include <vector>
 #include "structs/trade_event.h"
 #include "structs/backfill_req.h"
-#include "states/trade_tape.h"
+#include "states/trade_state.h"
 #include "ringbuffer.h"
 #include "authentication.h"
 
 class BackFillWorker {
 public:
-    BackFillWorker(TradeTape& tape, 
+    BackFillWorker(TradeState& tape, 
                     RingBuffer<BackFillRequest>& queue, 
                     Authenticator& auth);
     ~BackFillWorker();
@@ -23,7 +23,7 @@ private:
     void process_request(const BackFillRequest& req);
     TradeEvent fetch_trade_from_api(const BackFillRequest& req);
 
-    TradeTape& trade_tape_;
+    TradeState& trade_tape_;
     RingBuffer<BackFillRequest>& back_queue_;
     Authenticator& auth_;
     std::thread th_;
