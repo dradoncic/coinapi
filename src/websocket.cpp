@@ -94,9 +94,27 @@ void WebSocket::on_handshake(beast::error_code ec)
     ws_.async_write(net::buffer(write_buffer_),
         [this](beast::error_code ec, size_t bytes_transferred) { 
             if (ec) {std::cerr << "Subscribe: " << ec.message() << "\n"; return; }
-            ws_.async_read(read_buffer_, [this](beast::error_code ec, size_t bytes_transferred) {
-                on_read(ec, bytes_transferred);
-            });
+
+            nlohmann::json heartbeat_msg;
+            heartbeat_msg["type"] = "subscribe";
+            heartbeat_msg["channel"] = "heartbeats";
+            heartbeat_msg["product_ids"] = products_;
+            heartbeat_msg["jwt"] = auth_.build_jwt();
+
+            write_buffer_ = heartbeat_msg.dump();
+
+            ws_.async_write(net::buffer(write_buffer_),
+                [this](beast::error_code ec, size_t bytes_transferred) {
+                    if (ec) {
+                        std::cerr << "Subscribe heartbeat: " << ec.message() << "\n";
+                        return;
+                    }
+
+                    ws_.async_read(read_buffer_,
+                        [this](beast::error_code ec, size_t bytes_transferred) {
+                            on_read(ec, bytes_transferred);
+                        });
+                });
         });
 };
 
