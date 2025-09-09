@@ -2,7 +2,7 @@
 #include <unordered_map>
 #include <mutex>
 #include <simdjson.h>
-#include "states/trade_tape.h"
+#include "states/trade_state.h"
 #include "structs/raw_message.h"
 #include "structs/backfill_req.h"
 #include "ringbuffer.h"
@@ -10,7 +10,7 @@
 
 class TradeWorker {
 public:
-    TradeWorker(TradeTape& tape, RingBuffer<BackFillRequest>& queue);
+    TradeWorker(TradeState& tape, RingBuffer<BackFillRequest>& queue);
     
     void on_message(const RawMessage& msg);
 
@@ -21,7 +21,7 @@ private:
     TradeEvent parse_match_event(const RawMessage& msg);
     HeartbeatEvent parse_heartbeat_event(const RawMessage& msg);
 
-    TradeTape& trade_tape_;
+    TradeState& trade_tape_;
     RingBuffer<BackFillRequest>& back_queue_;
 
     mutable std::mutex mtx_state_;

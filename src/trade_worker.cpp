@@ -5,7 +5,7 @@
 #include "enums/channel_type.h"
 #include "enums/order_side.h"
 
-TradeWorker::TradeWorker(TradeTape& tape, RingBuffer<BackFillRequest>& queue) :
+TradeWorker::TradeWorker(TradeState& tape, RingBuffer<BackFillRequest>& queue) :
                             trade_tape_{tape},
                             back_queue_{queue} {}
 

@@ -8,7 +8,7 @@
 #include "structs/trade_event.h"
 #include "structs/heartbeat_event.h"
 
-class TradeTape {
+class TradeState {
 public:
     void add_trade(const TradeEvent& trade);
     std::vector<TradeEvent> get_trades(const std::string& product_id) const;
