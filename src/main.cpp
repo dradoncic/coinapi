@@ -86,6 +86,14 @@ int main(int argc, char** argv) {
         }
     });
 
+    while (g_running.load(std::memory_order_relaxed)) {
+        std::this_thread::sleep_for(std::chrono::milliseconds(100));
+    }
+    
+    ioc.stop();
+    if (io_thread.joinable()) io_thread.join();
+
+    return 0;
     // --- Worker: orderbook consumer (level2 + match in arrival order) ---
     // std::thread ob_thread([&]() {
     //     RawMessage msg;
@@ -97,4 +105,14 @@ int main(int argc, char** argv) {
     //         }
     //     }
     // });
+
+    // --- Shutdown ---
+    // std::cout << "Press Enter to quit…\n";
+    // std::cin.get();
+    // g_running.store(false, std::memory_order_relaxed);
+    // try { ioc.stop(); } catch (...) {}
+
+    // if (io_thread.joinable())      io_thread.join();
+
+    // return 0;
 }
