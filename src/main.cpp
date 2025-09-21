@@ -49,26 +49,27 @@ int main(int argc, char** argv) {
     SSL_CTX_set_tlsext_servername_callback(ssl_ctx.native_handle(), nullptr);
 
     // --- Lock-free SPSC queues (producer: WS thread, consumer: worker thread) ---
-    RingBuffer<RawMessage> orderbook_queue(8192);
-    RingBuffer<RawMessage> ticker_queue(8192);
-    RingBuffer<RawMessage> trade_queue(8192);
-    RingBuffer<BackFillRequest> backfill_queue(8192);
+    // RingBuffer<RawMessage> orderbook_queue(8192);
+    // RingBuffer<RawMessage> ticker_queue(8192);
+    // RingBuffer<RawMessage> trade_queue(8192);
+    // RingBuffer<BackFillRequest> backfill_queue(8192);
 
     // --- Shared state for strategies ---
-    OrderBookState orderbook_state;
-    TradeState trade_state;
+    // OrderBookState orderbook_state;
+    // TradeState trade_state;
 
     // --- Workers that will consume queues and update shared state ---
-    OrderBookWorker orderbook_worker(orderbook_state);
-    TradeWorker trade_worker(trade_state, backfill_queue);
+    // OrderBookWorker orderbook_worker(orderbook_state);
+    // TradeWorker trade_worker(trade_state, backfill_queue);
 
     // --- Dispatcher: routes raw JSON to the right queue with minimal peek ---
-    Dispatcher dispatcher(ticker_queue, orderbook_queue, trade_queue);
+    // Dispatcher dispatcher(ticker_queue, orderbook_queue, trade_queue);
 
     // --- WebSocket client ---
     WebSocket ws(auth, ioc, ssl_ctx);
-    ws.set_message_handler([&dispatcher](const std::string_view& msg){
-        dispatcher.handle_message(msg);
+    ws.set_message_handler([](const std::string_view& msg){
+        // dispatcher.handle_message(msg);
+        std::cout << msg << "\n"; 
     });
 
     std::string channel = argv[1];
@@ -86,14 +87,14 @@ int main(int argc, char** argv) {
     });
 
     // --- Worker: orderbook consumer (level2 + match in arrival order) ---
-    std::thread ob_thread([&]() {
-        RawMessage msg;
-        while (g_running.load(std::memory_order_relaxed)) {
-            if (orderbook_queue.pop(msg)) {
-                orderbook_worker.on_message(msg);
-            } else {
-                std::this_thread::sleep_for(std::chrono::microseconds(50));
-            }
-        }
-    });
+    // std::thread ob_thread([&]() {
+    //     RawMessage msg;
+    //     while (g_running.load(std::memory_order_relaxed)) {
+    //         if (orderbook_queue.pop(msg)) {
+    //             orderbook_worker.on_message(msg);
+    //         } else {
+    //             std::this_thread::sleep_for(std::chrono::microseconds(50));
+    //         }
+    //     }
+    // });
 }
