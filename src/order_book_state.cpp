@@ -1,4 +1,5 @@
 #include <utility>
+#include <iostream>
 #include "states/order_book_state.h"
 
 void OrderBookState::ensure_product(const std::string& product) 
@@ -63,4 +64,19 @@ std::shared_ptr<const OrderBook> OrderBookState::get_snapshot(const std::string&
 
     std::shared_lock<std::shared_mutex> book_lock(entry->mtx_book);
     return entry->book;
+}
+
+void OrderBookState::view_books() const
+{
+    std::shared_lock<std::shared_mutex> book_lock(mtx_orderbooks_);
+    for (const auto& [product, entry] : books_)
+    {
+        std::shared_lock entry_lock(entry->mtx_book);
+        std::cout << "Product: " << product << "\n";
+        if (entry->book) {
+            entry->book->print();
+        } else {
+            std:: cout << " (empty)\n";
+        }
+    }
 }

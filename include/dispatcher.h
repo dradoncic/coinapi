@@ -13,7 +13,7 @@ public:
                 orderbook_queue_{orderbook_queue},
                 trade_queue_{trade_queue} {};
 
-    void handle_message(const std::string_view& raw)
+    void handle_message(const std::string_view raw)
     {
         simdjson::ondemand::parser parser;
         simdjson::padded_string json(raw);
@@ -21,19 +21,19 @@ public:
 
         std::string_view channel = doc["channel"];
 
-        if (channel == "subscriptions" || "heartbeats") return;
+        if (channel == "subscriptions" || channel == "heartbeats") return;
         
         Channel channel_type = channelMap.at(channel);
-
         RawMessage msg;
         msg.channel = channel_type;  
         msg.payload = raw;
-    
+        
         switch (channel_type) {
             case Channel::TICKER:
                 ticker_queue_.push(msg);
                 break;
             case Channel::LEVEL2:
+                std::cout << msg.channel << "   |   " << msg.payload << "\n";
                 orderbook_queue_.push(msg);
                 break;
             case Channel::TRADE:

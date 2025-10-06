@@ -1,4 +1,6 @@
+#include <iostream>
 #include "structs/order_book.h"
+
 
 void OrderBook::set_level(Side side, Price price, Volume size)
 {
@@ -57,4 +59,34 @@ void OrderBook::refresh_bests()
 
     if (!asks_.empty()) best_ask_ = asks_.rbegin()->price;
     else best_ask_ = std::numeric_limits<double>::quiet_NaN();
+}
+
+void OrderBook::print() const
+{
+    std::cout << "---------------- ORDER BOOK ----------------\n";
+    std::cout << "Asks:\n";
+    if (asks_.empty()) {
+        std::cout << "   (none)\n";
+    } else {
+        for (auto it = asks_.rbegin(); it != asks_.rend(); it++)
+        {
+            std::cout << "  " << it->price << " : " << it->size << "\n";
+        }
+    }
+
+    std::cout << "--------------------------------------------\n";
+
+    std::cout << "Bids:\n";
+    if (bids_.empty()) {
+        std::cout << "  (none)\n";
+    } else {
+        for (auto it = bids_.rbegin(); it != bids_.rend(); ++it) {
+            std::cout << "  " << it->price << " : " << it->size << "\n";
+        }
+    }
+
+    std::cout << "--------------------------------------------\n";
+    std::cout << "Best Bid: " << best_bid_ << " | Best Ask: " << best_ask_ << "\n";
+    std::cout << "Sequence: " << sequence_ << "\n";
+    std::cout << "--------------------------------------------\n";
 }

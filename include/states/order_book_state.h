@@ -15,7 +15,8 @@ public:
     void ensure_product(const std::string& product);
     void update_book(const std::string& product, std::unique_ptr<OrderBook> newBook);
     void add_order(const std::string& product, Side side, Price price, Volume size);
-
+    
+    void view_books() const;
     std::shared_ptr<const OrderBook> get_snapshot(const std::string& product) const;
 
 private:
