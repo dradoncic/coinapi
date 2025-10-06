@@ -1,0 +1,80 @@
+{
+    "channel": "l2_data",
+    "client_id": "",
+    "timestamp": "2025-10-06T20:34:54.303675013Z",
+    "sequence_num": 35,
+    "events": [
+        {
+            "type": "update",
+            "product_id": "BTC-USD",
+            "updates": [
+                {
+                    "side": "bid",
+                    "event_time": "2025-10-06T20:34:54.269187Z",
+                    "price_level": "125354.62",
+                    "new_quantity": "0.01692797"
+                },
+                {
+                    "side": "bid",
+                    "event_time": "2025-10-06T20:34:54.269187Z",
+                    "price_level": "125354.01",
+                    "new_quantity": "0"
+                },
+                {
+                    "side": "bid",
+                    "event_time": "2025-10-06T20:34:54.269187Z",
+                    "price_level": "125353.73",
+                    "new_quantity": "0.00007803"
+                },
+                {
+                    "side": "bid",
+                    "event_time": "2025-10-06T20:34:54.269187Z",
+                    "price_level": "125352.01",
+                    "new_quantity": "0"
+                },
+                {
+                    "side": "bid",
+                    "event_time": "2025-10-06T20:34:54.269187Z",
+                    "price_level": "125325.11",
+                    "new_quantity": "0.02184527"
+                },
+                {
+                    "side": "bid",
+                    "event_time": "2025-10-06T20:34:54.269187Z",
+                    "price_level": "125104.41",
+                    "new_quantity": "0"
+                },
+                {
+                    "side": "bid",
+                    "event_time": "2025-10-06T20:34:54.269187Z",
+                    "price_level": "124889.96",
+                    "new_quantity": "0.09342"
+                },
+                {
+                    "side": "bid",
+                    "event_time": "2025-10-06T20:34:54.269187Z",
+                    "price_level": "124889.54",
+                    "new_quantity": "0"
+                },
+                {
+                    "side": "bid",
+                    "event_time": "2025-10-06T20:34:54.269187Z",
+                    "price_level": "124674.97",
+                    "new_quantity": "0"
+                },
+                {
+                    "side": "bid",
+                    "event_time": "2025-10-06T20:34:54.269187Z",
+                    "price_level": "124460.44",
+                    "new_quantity": "0"
+                },
+                {
+                    "side": "bid",
+                    "event_time": "2025-10-06T20:34:54.269187Z",
+                    "price_level": "124245.95",
+                    "new_quantity": "0"
+                }
+            ]
+        }
+    ]
+}

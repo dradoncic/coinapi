@@ -26,14 +26,13 @@ public:
         Channel channel_type = channelMap.at(channel);
         RawMessage msg;
         msg.channel = channel_type;  
-        msg.payload = raw;
+        msg.payload = std::string(raw);
         
         switch (channel_type) {
             case Channel::TICKER:
                 ticker_queue_.push(msg);
                 break;
             case Channel::LEVEL2:
-                std::cout << msg.channel << "   |   " << msg.payload << "\n";
                 orderbook_queue_.push(msg);
                 break;
             case Channel::TRADE:

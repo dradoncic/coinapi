@@ -134,14 +134,14 @@ void WebSocket::on_read(beast::error_code ec , std::size_t bytes_transferred)
 
     message_count_++;
 
-    // if (message_count_ >= max_messages_) {
-    //     std::cout << "}" << "\n";
-    //     ws_.async_close(websocket::close_code::normal,
-    //         [this](beast::error_code ec) {
-    //             if (ec) std::cerr << "Close: " << ec.message() << "\n";
-    //         });
-    //     return;
-    // }
+    if (message_count_ >= max_messages_) {
+        std::cout << "}" << "\n";
+        ws_.async_close(websocket::close_code::normal,
+            [this](beast::error_code ec) {
+                if (ec) std::cerr << "Close: " << ec.message() << "\n";
+            });
+        return;
+    }
 
     ws_.async_read(read_buffer_, [this](beast::error_code ec, size_t bytes_transferred) {
         on_read(ec, bytes_transferred);

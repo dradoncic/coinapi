@@ -4,5 +4,5 @@
 
 struct RawMessage {
     Channel channel;
-    std::string_view payload;
+    std::string payload;
 };
