@@ -37,7 +37,7 @@ public:
 
     void reserve_levels(size_t bids, size_t asks);
 
-    void print() const;
+    void print(int levels) const;
 
 private:
     std::vector<Level> bids_;

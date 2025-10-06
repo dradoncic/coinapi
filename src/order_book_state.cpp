@@ -66,7 +66,7 @@ std::shared_ptr<const OrderBook> OrderBookState::get_snapshot(const std::string&
     return entry->book;
 }
 
-void OrderBookState::view_books() const
+void OrderBookState::view_books(int levels) const
 {
     std::shared_lock<std::shared_mutex> book_lock(mtx_orderbooks_);
     for (const auto& [product, entry] : books_)
@@ -74,7 +74,7 @@ void OrderBookState::view_books() const
         std::shared_lock entry_lock(entry->mtx_book);
         std::cout << "Product: " << product << "\n";
         if (entry->book) {
-            entry->book->print();
+            entry->book->print(levels);
         } else {
             std:: cout << " (empty)\n";
         }

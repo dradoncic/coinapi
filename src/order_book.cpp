@@ -61,17 +61,20 @@ void OrderBook::refresh_bests()
     else best_ask_ = std::numeric_limits<double>::quiet_NaN();
 }
 
-void OrderBook::print() const
+void OrderBook::print(int levels) const
 {
     std::cout << "---------------- ORDER BOOK ----------------\n";
+
     std::cout << "Asks:\n";
     if (asks_.empty()) {
         std::cout << "   (none)\n";
     } else {
-        for (auto it = asks_.rbegin(); it != asks_.rend(); it++)
-        {
+        int count = 0;
+        for (auto it = asks_.rbegin(); it != asks_.rend() && count < levels; ++it, ++count) {
             std::cout << "  " << it->price << " : " << it->size << "\n";
         }
+        if (asks_.size() > levels)
+            std::cout << "  ... (" << asks_.size() - levels << " more levels)\n";
     }
 
     std::cout << "--------------------------------------------\n";
@@ -80,9 +83,12 @@ void OrderBook::print() const
     if (bids_.empty()) {
         std::cout << "  (none)\n";
     } else {
-        for (auto it = bids_.rbegin(); it != bids_.rend(); ++it) {
+        int count = 0;
+        for (auto it = bids_.rbegin(); it != bids_.rend() && count < levels; ++it, ++count) {
             std::cout << "  " << it->price << " : " << it->size << "\n";
         }
+        if (bids_.size() > levels)
+            std::cout << "  ... (" << bids_.size() - levels << " more levels)\n";
     }
 
     std::cout << "--------------------------------------------\n";

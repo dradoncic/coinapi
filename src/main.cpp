@@ -105,7 +105,7 @@ int main(int argc, char** argv) {
     if (ob_thread.joinable()) ob_thread.join();
 
     std::cout << "Final Order Books:\n";
-    orderbook_state.view_books();
+    orderbook_state.view_books(100);
 
     return 0;
 
