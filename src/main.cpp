@@ -110,6 +110,8 @@ int main(int argc, char** argv) {
     return 0;
 
 
+    // got this to work, going to make this more modular now
+
 
 
     // --- Worker: orderbook consumer (level2 + match in arrival order) ---
